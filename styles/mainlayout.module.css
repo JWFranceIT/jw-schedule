@@ -1,0 +1,22 @@
+.Header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1030;
+  background-color: #fff;
+  padding: 1.875rem;
+}
+.logo {
+  float: left;
+}
+.HeaderTitle {
+  color: blue;
+  text-align: center;
+  width: 75%;
+  float: left;
+}
+
+.deliveryInformations {
+  text-align: center;
+}
