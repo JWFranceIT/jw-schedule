@@ -1,6 +1,6 @@
 export const defaultFetch = async (query, variables = {}) => {
   try {
-    const res = await fetch("http://localhost:1337/graphql", {
+    const res = await fetch(process.env.SERVER + "/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export const defaultFetch = async (query, variables = {}) => {
 };
 
 export const login = async (provider, product_order) => {
-  const log = await fetch("http://localhost:1337/product-orders/login", {
+  const log = await fetch(process.env.SERVER + "/product-orders/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const validate = async (
   reception_zone,
   promise_date
 ) => {
-  const res = await fetch("http://localhost:1337/schedules/isExist", {
+  const res = await fetch(process.env.SERVER + "/schedules/isExist", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const validate = async (
 };
 
 export const getProviders = async (query) => {
-  const res = await fetch("http://localhost:1337/graphql", {
+  const res = await fetch(process.env.SERVER + "/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export const getProviders = async (query) => {
 };
 
 export const getSchedules = async (query, variables = {}) => {
-  const res = await fetch(`http://localhost:1337/graphql`, {
+  const res = await fetch(process.env.SERVER + `/graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
