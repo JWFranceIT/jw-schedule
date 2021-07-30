@@ -1,16 +1,20 @@
 export const defaultFetch = async (query, variables = {}) => {
-  const res = await fetch("http://localhost:1337/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      variables,
-      query,
-    }),
-  });
+  try {
+    const res = await fetch("http://localhost:1337/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        variables,
+        query,
+      }),
+    });
 
-  return res.json();
+    return res.json();
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const login = async (provider, product_order) => {
@@ -33,7 +37,7 @@ export const validate = async (
   reception_zone,
   promise_date
 ) => {
-  const log = await fetch("http://localhost:1337/schedules/isExist", {
+  const res = await fetch("http://localhost:1337/schedules/isExist", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -47,8 +51,7 @@ export const validate = async (
       promise_date,
     }),
   });
-
-  return log;
+  return res.json();
 };
 
 export const getProviders = async (query) => {
@@ -61,6 +64,7 @@ export const getProviders = async (query) => {
       query,
     }),
   });
+
   return res.json();
 };
 

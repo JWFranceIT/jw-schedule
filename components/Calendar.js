@@ -2,9 +2,11 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment-business-days";
 import ConfirmationModal from "./ConfirmationModal";
+import EditAppointementModal from "./EditAppointementModal";
 import { usePlanningHours, useScheduleByZone } from "../api/bookings";
 import { useRouter, withRouter } from "next/router";
 import MyWorkWeek from "./MyWorkWeek";
+import lodash from "lodash";
 import "moment/locale/fr";
 
 const Calendar = ({
@@ -54,6 +56,8 @@ const Calendar = ({
   const [event, setEvent] = useState([]);
   const [events, setEvents] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [visibleEdit, setVisibleEdit] = useState(false);
+  const [minSlot, setMinSlot] = useState([]);
 
   const startHourPlanning = moment(
     timeReceptionZone?.start,
@@ -84,20 +88,10 @@ const Calendar = ({
         .toDate();
       schedule.start = schedule.full_day ? toto : new Date(schedule.start);
       schedule.end = schedule.full_day ? tata : new Date(schedule.end);
-
-      if (JW === "true") {
-        return (schedule.title =
-          schedule?.provider?.name +
-          schedule.product_order +
-          moment(schedule.promise_date).format("DD/MM/YYYY"));
-      } else {
-        return (schedule.title = "");
-      }
     }),
       setEvents(scheduleData.data.schedules);
   }, [
     scheduleData,
-    JW,
     endHourPlanning,
     endMinutePlanning,
     startHourPlanning,
@@ -115,7 +109,9 @@ const Calendar = ({
   const showModal = () => {
     setVisible(true);
   };
-
+  const showModalEdit = () => {
+    setVisibleEdit(true);
+  };
   const fullday = false;
   const handleClickSlot = (e) => {
     const { start, end } = e;
@@ -148,29 +144,71 @@ const Calendar = ({
     showModal();
   };
 
-  const eventStyleGetter = (event, start, end, isSelected) => {
+  const eventStyleGetter = () => {
     return {
       style: {
         backgroundColor: "#FF4901",
       },
     };
   };
-  const EventComponent = ({ event }) =>
-    event.provider.id === id ? "Your event reserved" : "";
+  const rangeSlots = [];
+  const test = lodash.sortBy(events, ["start"]);
+  for (let i = 0; i < test.length; i++) {
+    var a = moment(test[i].end);
+    var b = moment(test[i + 1]?.start);
+    const toto = b.diff(a, "minutes");
+    if (toto < time && toto > 0) {
+      rangeSlots.push({
+        endSlot: moment(a).toDate(),
+        startSlot: moment(b).toDate(),
+      });
+    }
+    var c = moment(test[i].start);
+    const tata = startHourPlanning;
+  }
+
+  const slotStyleGetter = (date) => {
+    rangeSlots.map((slot) => {
+      const yoyo = moment(date).isBetween(
+        moment(slot.endSlot).subtract(1, "minutes"),
+        moment(slot.startSlot)
+      );
+      if (yoyo) {
+        return { style: { backgroundColor: "blue" } };
+      }
+    });
+    return { style: { backgroundColor: "#689D71" } };
+  };
+
+  const EventComponent = ({ event }) => {
+    if (JW === "true") {
+      return `${event.provider.name}  ${event.product_order}  ${moment(
+        event.promise_date
+      ).format("DD-MM-YYYY")}`;
+    } else if (event.provider.id === id) {
+      return "Your actual reservation";
+    } else {
+      return "";
+    }
+  };
   const messages = {
     previous: "Précédent",
     next: "Suivant",
     today: "Aujourd'hui",
   };
-  console.log({ events });
+  const onSelectEvent = (event) => {
+    setEvent(event);
+    showModalEdit();
+  };
+
   return (
     <>
       <BigCalendar
         messages={messages}
         style={{ height: 1800, paddingBottom: 300 }}
-        selectable={"ignoreEvents"}
+        selectable={JW === "true" ? true : "ignoreEvents"}
         onSelectSlot={handleClickSlot}
-        onSelectEvent={false}
+        onSelectEvent={JW === "true" ? onSelectEvent : false}
         events={events}
         views={{ myWeek: MyWorkWeek }}
         defaultView={"myWeek"}
@@ -187,13 +225,14 @@ const Calendar = ({
             : new Date(promise_date)
         }
         components={{
-          timeSlotWrapper: ColoredDateCellWrapper,
+          // timeSlotWrapper: ColoredDateCellWrapper,
           event: EventComponent,
         }}
         toolbar={true}
         localizer={localizer}
         timeslots={1}
         eventPropGetter={eventStyleGetter}
+        slotPropGetter={slotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
         longPressThreshold={5}
@@ -206,6 +245,18 @@ const Calendar = ({
         setEvent={setEvent}
         setEvents={setEvents}
       />
+      {JW === "true" && (
+        <EditAppointementModal
+          show={visibleEdit}
+          toggle={setVisibleEdit}
+          event={event}
+          events={events}
+          setEvent={setEvent}
+          setEvents={setEvents}
+          startHourPlanning={startHourPlanning}
+          endHourPlanning={endHourPlanning}
+        />
+      )}
     </>
   );
 };

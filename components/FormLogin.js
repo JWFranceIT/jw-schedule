@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Form, Input, Button, AutoComplete } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import ChangeAppointementModal from "./ChangeAppointementModal";
 import { useRouter } from "next/router";
 import { login } from "../api/database";
 import moment from "moment-business-days";
 import styles from "../styles/Home.module.css";
 
 const FormLogin = ({ providers }) => {
-  console.log(providers.length);
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
   const dataSource = providers.flatMap((x) => x.name);
@@ -15,6 +15,7 @@ const FormLogin = ({ providers }) => {
   const { startEvent, endEvent, provider_name, product_order } = router.query;
   const [error, setError] = useState(false);
   const [existingSlot, setExistingSlot] = useState(false);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     forceUpdate({});
   }, []);
@@ -29,40 +30,23 @@ const FormLogin = ({ providers }) => {
       } else if (data.statusCode === 200 && data.isExist) {
         setData({ ...data, startRDV: data.isExist?.start });
         setExistingSlot(true);
+        setVisible(true);
       } else {
         setError(true);
       }
     });
   };
   const [state, setState] = useState(false);
-  console.log({ data });
 
-  console.log(data.startRDV);
   return (
     <div className={styles.formContainer}>
-      {!existingSlot && Object.keys(router.query).length !== 0 && (
-        <div>
-          <h1>Votre rdv {moment(startEvent).format("DD-MM-YYYY HH:mm")}</h1>
-        </div>
-      )}
       {error && <h2 className={styles.error}>Bad credentials</h2>}
       {existingSlot && (
-        <div>
-          <h1>
-            Votre rdv toto {moment(data.startRDV).format("DD-MM-YYYY HH:mm")}
-          </h1>
-          <Button
-            type="primary"
-            onClick={() =>
-              router.replace({
-                pathname: "/toto",
-                query: data,
-              })
-            }
-          >
-            Change your appointement
-          </Button>
-        </div>
+        <ChangeAppointementModal
+          data={data}
+          show={visible}
+          toggle={setVisible}
+        />
       )}
       <Form
         form={form}

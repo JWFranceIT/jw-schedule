@@ -6,17 +6,21 @@
   z-index: 1030;
   background-color: #fff;
   padding: 1.875rem;
+  border-bottom: #1d446b 1px solid;
 }
 .logo {
   float: left;
 }
 .HeaderTitle {
-  color: blue;
+  color: #1d446b;
   text-align: center;
   width: 75%;
   float: left;
+  padding-right: 5%;
 }
 
 .deliveryInformations {
   text-align: center;
+  width: 90%;
+  margin: auto;
 }

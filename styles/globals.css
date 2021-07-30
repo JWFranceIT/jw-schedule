@@ -1,11 +1,13 @@
+* {
+  font-family: Frutiger;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 100;
+  box-sizing: border-box;
+}
 html,
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 400;
-  line-height: 1.78;
-  color: #1d446b;
   text-align: left;
   background-color: #eeeff0;
 }
@@ -15,8 +17,8 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+p {
+  margin-bottom: 0 !important;
 }
 
 .rbc-day-slot .rbc-events-container {
@@ -50,4 +52,18 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
 
 .ant-modal {
   top: 33%;
+}
+
+.rbc-day-slot .rbc-background-event,
+.rbc-day-slot .rbc-event {
+  border-color: #fff !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: greenyellow !important;
+  height: 2px !important;
+}
+
+.checked {
+  color: green;
 }

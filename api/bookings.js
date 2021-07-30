@@ -27,6 +27,9 @@ export const useSaveBooking = () => {
   const mutation = useMutation(
     (variables) => defaultFetch(SAVE_BOOKING, variables),
     {
+      onError: (error) => {
+        return error;
+      },
       onSuccess: () => {
         queryClient.refetchQueries(["schedules"]);
       },
