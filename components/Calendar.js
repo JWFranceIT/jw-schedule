@@ -240,7 +240,7 @@ const Calendar = ({
       <BigCalendar
         messages={messages}
         style={{ height: 1800, paddingBottom: 300 }}
-        selectable={JW === "true" ? true : false}
+        selectable={JW === "true" ? true : "ignoreEvents"}
         onSelectSlot={handleClickSlot}
         onSelectEvent={JW === "true" ? onSelectEvent : false}
         events={events}
@@ -270,6 +270,7 @@ const Calendar = ({
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
         longPressThreshold={0.1}
+        onSelecting={(slot) => false}
       />
       <ConfirmationModal
         show={visible}
