@@ -240,7 +240,7 @@ const Calendar = ({
       <BigCalendar
         messages={messages}
         style={{ height: 1800, paddingBottom: 300 }}
-        selectable={JW === "true" ? true : "ignoreEvents"}
+        selectable={JW === "true" ? true : false}
         onSelectSlot={handleClickSlot}
         onSelectEvent={JW === "true" ? onSelectEvent : false}
         events={events}
