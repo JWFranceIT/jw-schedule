@@ -5,6 +5,10 @@ import ChangeAppointementModal from "./ChangeAppointementModal";
 import { useRouter } from "next/router";
 import { login } from "../api/database";
 import moment from "moment-business-days";
+import en from "../locales/en";
+import fr from "../locales/fr";
+import bg from "../locales/bg";
+import hu from "../locales/hu";
 import styles from "../styles/Home.module.css";
 
 const FormLogin = ({ providers }) => {
@@ -12,6 +16,21 @@ const FormLogin = ({ providers }) => {
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
   const dataSource = providers.flatMap((x) => x.name);
   const router = useRouter();
+  const { locale } = router;
+  let t = "";
+
+  switch (locale) {
+    case "bg":
+      t = bg;
+      break;
+    case "hu":
+      t = hu;
+      break;
+    default:
+      t = fr;
+      break;
+  }
+  console.log("TOTO", t);
   const { startEvent, endEvent, provider_name, product_order } = router.query;
   const [error, setError] = useState(false);
   const [existingSlot, setExistingSlot] = useState(false);
@@ -24,7 +43,7 @@ const FormLogin = ({ providers }) => {
     login(provider, product_order).then((data) => {
       if (data.statusCode === 200 && !data.isExist) {
         router.replace({
-          pathname: "/toto",
+          pathname: "/schedule",
           query: data,
         });
       } else if (data.statusCode === 200 && data.isExist) {
@@ -40,7 +59,7 @@ const FormLogin = ({ providers }) => {
 
   return (
     <div className={styles.formContainer}>
-      {error && <h2 className={styles.error}>Bad credentials</h2>}
+      {error && <h2 className={styles.error}>{t.errorCredentials}</h2>}
       {existingSlot && (
         <ChangeAppointementModal
           data={data}
@@ -55,19 +74,19 @@ const FormLogin = ({ providers }) => {
         onFinish={onFinish}
       >
         <Form.Item
-          label="Supplier"
+          label={t.label1}
           name="provider"
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: t.messageLabel1,
             },
           ]}
           validateStatus={error ? "error" : ""}
         >
           <AutoComplete
             dataSource={dataSource}
-            placeholder="Supplier name"
+            placeholder={t.label1}
             onSearch={(value) =>
               value.length >= 3 ? setState(true) : setState(false)
             }
@@ -83,21 +102,17 @@ const FormLogin = ({ providers }) => {
           />
         </Form.Item>
         <Form.Item
-          label="Product order"
+          label={t.label2}
           name="product_order"
           rules={[
             {
               required: true,
-              message: "Please input your product order!",
+              message: t.messageLabel2,
             },
           ]}
           validateStatus={error ? "error" : ""}
         >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Product order"
-            autoComplete="off"
-          />
+          <Input placeholder={t.label2} autoComplete="off" />
         </Form.Item>
         <Form.Item shouldUpdate>
           {() => (

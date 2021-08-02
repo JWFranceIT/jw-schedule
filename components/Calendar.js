@@ -158,25 +158,24 @@ const Calendar = ({
     var b = moment(test[i + 1]?.start);
     const toto = b.diff(a, "minutes");
     if (toto < time && toto > 0) {
-      rangeSlots.push({
-        endSlot: moment(a).toDate(),
-        startSlot: moment(b).toDate(),
-      });
+      rangeSlots.push(moment(a).toDate());
     }
-    var c = moment(test[i].start);
-    const tata = startHourPlanning;
   }
 
   const slotStyleGetter = (date) => {
-    rangeSlots.map((slot) => {
-      const yoyo = moment(date).isBetween(
-        moment(slot.endSlot).subtract(1, "minutes"),
-        moment(slot.startSlot)
-      );
-      if (yoyo) {
-        return { style: { backgroundColor: "blue" } };
-      }
-    });
+    if (
+      rangeSlots.find(
+        (element) => moment(element).toString() == moment(date).toString()
+      ) !== undefined
+    ) {
+      console.log("TOTO EST LA");
+      return {
+        style: {
+          backgroundColor: "grey",
+          cursor: "not-allowed !important",
+        },
+      };
+    }
     return { style: { backgroundColor: "#689D71" } };
   };
 
@@ -190,6 +189,41 @@ const Calendar = ({
     } else {
       return "";
     }
+  };
+  const SlotComponent = ({ header, event }) => {
+    console.log({ header });
+    console.log({ event });
+    // return rangeSlots.map((slot) => {
+    //   const yoyo = moment(date).isBetween(
+    //     moment(slot.endSlot).subtract(1, "minutes"),
+    //     moment(slot.startSlot)
+    //   );
+    //   console.log({ yoyo });
+    //   if (yoyo) {
+    //     return React.cloneElement(React.Children.only(children), {
+    //       style: { backgroundColor: "blue" },
+    //     });
+    //   } else {
+    // return React.cloneElement(React.Children.only(children), {
+    //   style: {
+    //     backgroundColor: "#689D71",
+    //   },
+    // });
+    //   }
+    // });
+    const allDateValue = useMemo(() => {
+      // var c = moment(test[i].start).hours();
+      // console.log(children);
+      // const tata = moment(date).hours();
+      // console.log({ c });
+      // console.log({ tata });
+    }, []);
+    // console.log(allDateValue);
+    return React.cloneElement(React.Children.only(children), {
+      style: {
+        backgroundColor: "#689D71",
+      },
+    });
   };
   const messages = {
     previous: "Précédent",
@@ -225,7 +259,7 @@ const Calendar = ({
             : new Date(promise_date)
         }
         components={{
-          // timeSlotWrapper: ColoredDateCellWrapper,
+          day: SlotComponent,
           event: EventComponent,
         }}
         toolbar={true}
@@ -235,7 +269,7 @@ const Calendar = ({
         slotPropGetter={slotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
-        longPressThreshold={5}
+        longPressThreshold={0.1}
       />
       <ConfirmationModal
         show={visible}

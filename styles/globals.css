@@ -67,3 +67,8 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
 .checked {
   color: green;
 }
+
+.ant-select-selector {
+  text-align: center !important;
+  height: auto !important;
+}

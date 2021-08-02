@@ -4,14 +4,17 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import moment from "moment-business-days";
-import { Menu } from "antd";
-const { SubMenu } = Menu;
+import { Select } from "antd";
+const { Option } = Select;
 
 export default function MainLayout({ children }) {
   const router = useRouter();
+  const locale = router.locale;
+  const locales = router.locales;
+
   const { adresse, promise_date, name } = router.query;
-  const handleClick = (e) => {
-    alert("changement de langue");
+  const handleChange = (value) => {
+    router.push("/", "/", { locale: value });
   };
   return (
     <>
@@ -31,7 +34,35 @@ export default function MainLayout({ children }) {
 
         <h1 className={styles.HeaderTitle}>Planning réception</h1>
 
-        <div>TODO CHOOSE LANGAGE</div>
+        <Select
+          defaultValue={
+            <Image
+              src={`/flags-icons/${locale}.png`}
+              alt="logo jeld wen"
+              width={40}
+              height={40}
+            />
+          }
+          style={{ width: 120 }}
+          dropdownStyle={{ textAlign: "center" }}
+          bordered={false}
+          onChange={handleChange}
+        >
+          {locales.map((element) =>
+            element !== locale ? (
+              <Option value={element}>
+                <Image
+                  src={`/flags-icons/${element}.png`}
+                  alt="logo jeld wen"
+                  width={40}
+                  height={40}
+                />
+              </Option>
+            ) : (
+              ""
+            )
+          )}
+        </Select>
 
         {adresse && promise_date && (
           <div className={styles.deliveryInformations}>

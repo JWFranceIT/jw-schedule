@@ -20,7 +20,7 @@ export default function ChangeAppointementModal({ show, toggle, data }) {
       toggle(false);
       setConfirmLoading(false);
       router.replace({
-        pathname: "/toto",
+        pathname: "/schedule",
         query: data,
       });
     }, 2000);
