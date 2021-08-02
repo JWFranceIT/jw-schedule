@@ -8,14 +8,16 @@ import { useRouter, withRouter } from "next/router";
 import MyWorkWeek from "./MyWorkWeek";
 import lodash from "lodash";
 import "moment/locale/fr";
+import "moment/locale/bg";
 
 const Calendar = ({
   // schedulesByZone: scheduleData,
   planningReceptionZone: timeReceptionZone,
 }) => {
-  moment.locale("fr");
-  const localizer = momentLocalizer(moment);
   const router = useRouter();
+  console.log("router", router.locale);
+  moment.locale(router.locale);
+  const localizer = momentLocalizer(moment);
   const {
     id,
     provider,
@@ -269,8 +271,8 @@ const Calendar = ({
         slotPropGetter={slotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
-        longPressThreshold={1}
-        onSelecting={false}
+        longPressThreshold={50}
+        onSelecting={handleClickSlot}
       />
       <ConfirmationModal
         show={visible}

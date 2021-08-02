@@ -16,7 +16,9 @@ const FormLogin = ({ providers }) => {
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
   const dataSource = providers.flatMap((x) => x.name);
   const router = useRouter();
+
   const { locale } = router;
+
   let t = "";
 
   switch (locale) {
@@ -30,8 +32,7 @@ const FormLogin = ({ providers }) => {
       t = fr;
       break;
   }
-  console.log("TOTO", t);
-  const { startEvent, endEvent, provider_name, product_order } = router.query;
+
   const [error, setError] = useState(false);
   const [existingSlot, setExistingSlot] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -124,7 +125,7 @@ const FormLogin = ({ providers }) => {
                   .length
               }
             >
-              Connexion
+              {t.button_connect}
             </Button>
           )}
         </Form.Item>

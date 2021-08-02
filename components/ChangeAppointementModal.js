@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Modal } from "antd";
-import { isEmpty } from "lodash";
+
 import { useRouter } from "next/router";
 import moment from "moment";
-import { validate } from "../api/database";
 
 export default function ChangeAppointementModal({ show, toggle, data }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
