@@ -271,7 +271,7 @@ const Calendar = ({
         slotPropGetter={slotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
-        longPressThreshold={50}
+        // longPressThreshold={50}
         onSelecting={handleClickSlot}
       />
       <ConfirmationModal
