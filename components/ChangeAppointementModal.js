@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Modal } from "antd";
-
+import { useIntl } from "react-intl";
 import { useRouter } from "next/router";
 import moment from "moment";
 
 export default function ChangeAppointementModal({ show, toggle, data }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const router = useRouter();
-
+  const { formatMessage: t } = useIntl();
   const handleCancel = () => {
     toggle();
   };
@@ -27,15 +27,16 @@ export default function ChangeAppointementModal({ show, toggle, data }) {
   return (
     <Modal
       style={{ top: "33%" }}
-      title="Modifier réservation"
+      title={t({ id: "titleChangeModal" })}
       visible={show}
       onOk={handleOk}
       onCancel={handleCancel}
       confirmLoading={confirmLoading}
     >
       <p>
-        Êtes-vous sûr de modifier votre réservation du{" "}
-        {moment(data.startRDV).format("DD-MM-YYYY HH:mm")} ?
+        {`${t({ id: "textChangeModal" })} ${moment(data.startRDV).format(
+          "DD-MM-YYYY HH:mm"
+        )} ?`}
       </p>
     </Modal>
   );

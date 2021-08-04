@@ -7,15 +7,15 @@ import { usePlanningHours, useScheduleByZone } from "../api/bookings";
 import { useRouter, withRouter } from "next/router";
 import MyWorkWeek from "./MyWorkWeek";
 import lodash from "lodash";
-import "moment/locale/fr";
-import "moment/locale/bg";
+import "moment/min/locales";
+import styles from "../styles/Calendar.module.css";
 
 const Calendar = ({
   // schedulesByZone: scheduleData,
   planningReceptionZone: timeReceptionZone,
 }) => {
   const router = useRouter();
-  console.log("router", router.locale);
+
   moment.locale(router.locale);
   const localizer = momentLocalizer(moment);
   const {
@@ -29,37 +29,10 @@ const Calendar = ({
   } = router.query;
   const { data: scheduleData } = useScheduleByZone({ reception_zone });
 
-  // const schedulesTest = useMemo(() => {
-  //   if (!toto) return [];
-  //   toto.map((schedule) => {
-  //     const regex = new RegExp("^(..)(\\d)(EXW+)([0-9]+)", "g");
-
-  //     const toto = moment(schedule.start)
-  //       .set({ hour: startHourPlanning, minute: startMinutePlanning })
-  //       .toDate();
-  //     const tata = moment(schedule.end)
-  //       .set({ hour: endHourPlanning, minute: endMinutePlanning })
-  //       .toDate();
-  //     schedule.start = schedule.full_day ? toto : new Date(schedule.start);
-  //     schedule.end = schedule.full_day ? tata : new Date(schedule.end);
-
-  //     if (JW === "true") {
-  //       return (schedule.title =
-  //         schedule?.provider?.name +
-  //         schedule.product_order +
-  //         moment(schedule.promise_date).format("DD/MM/YYYY"));
-  //     } else {
-  //       return (schedule.title = "");
-  //     }
-  //   }),
-  //     setEvents(toto);
-  // }, [toto]);
-  // console.log({ schedulesTest });
   const [event, setEvent] = useState([]);
   const [events, setEvents] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
-  const [minSlot, setMinSlot] = useState([]);
 
   const startHourPlanning = moment(
     timeReceptionZone?.start,
@@ -70,24 +43,24 @@ const Calendar = ({
     "HH:mm:ss.sss"
   ).minutes();
   const endMinutePlanning = moment(timeReceptionZone?.end, "HH:mm:ss.sss")
-    .add(29, "minutes")
+    .subtract(30, "minutes")
     .minutes();
-  const endHourPlanning = moment(
-    timeReceptionZone?.end,
-    "HH:mm:ss.sss"
-  ).hours();
+
+  const endHourPlanning = moment(timeReceptionZone?.end, "HH:mm:ss.sss")
+    .subtract(1, "hour")
+    .hours();
 
   useEffect(() => {
     if (!scheduleData) return [];
     scheduleData.data.schedules.map((schedule) => {
       const regex = new RegExp("^(..)(\\d)(EXW+)([0-9]+)", "g");
-
       const toto = moment(schedule.start)
         .set({ hour: startHourPlanning, minute: startMinutePlanning })
         .toDate();
       const tata = moment(schedule.end)
-        .set({ hour: endHourPlanning, minute: endMinutePlanning })
+        .set(moment(timeReceptionZone.end))
         .toDate();
+
       schedule.start = schedule.full_day ? toto : new Date(schedule.start);
       schedule.end = schedule.full_day ? tata : new Date(schedule.end);
     }),
@@ -111,6 +84,9 @@ const Calendar = ({
   const showModal = () => {
     setVisible(true);
   };
+  /**
+   * Set the state of edit modal
+   */
   const showModalEdit = () => {
     setVisibleEdit(true);
   };
@@ -170,12 +146,11 @@ const Calendar = ({
         (element) => moment(element).toString() == moment(date).toString()
       ) !== undefined
     ) {
-      console.log("TOTO EST LA");
       return {
-        style: {
-          backgroundColor: "grey",
-          cursor: "not-allowed !important",
-        },
+        className: styles.slotDisable,
+        // style: {
+        //   backgroundColor: "grey",
+        // },
       };
     }
     return { style: { backgroundColor: "#689D71" } };
@@ -192,41 +167,14 @@ const Calendar = ({
       return "";
     }
   };
-  const SlotComponent = ({ header, event }) => {
-    console.log({ header });
-    console.log({ event });
-    // return rangeSlots.map((slot) => {
-    //   const yoyo = moment(date).isBetween(
-    //     moment(slot.endSlot).subtract(1, "minutes"),
-    //     moment(slot.startSlot)
-    //   );
-    //   console.log({ yoyo });
-    //   if (yoyo) {
-    //     return React.cloneElement(React.Children.only(children), {
-    //       style: { backgroundColor: "blue" },
-    //     });
-    //   } else {
-    // return React.cloneElement(React.Children.only(children), {
-    //   style: {
-    //     backgroundColor: "#689D71",
-    //   },
-    // });
-    //   }
-    // });
-    const allDateValue = useMemo(() => {
-      // var c = moment(test[i].start).hours();
-      // console.log(children);
-      // const tata = moment(date).hours();
-      // console.log({ c });
-      // console.log({ tata });
-    }, []);
-    // console.log(allDateValue);
+  const SlotComponent = ({ children, value }) => {
     return React.cloneElement(React.Children.only(children), {
       style: {
         backgroundColor: "#689D71",
       },
     });
   };
+
   const messages = {
     previous: "Précédent",
     next: "Suivant",
@@ -236,7 +184,11 @@ const Calendar = ({
     setEvent(event);
     showModalEdit();
   };
-
+  console.log(
+    moment(promise_date).isBefore(moment())
+      ? moment().toDate()
+      : new Date(promise_date)
+  );
   return (
     <>
       <BigCalendar
@@ -249,7 +201,11 @@ const Calendar = ({
         views={{ myWeek: MyWorkWeek }}
         defaultView={"myWeek"}
         step={30}
-        defaultDate={new Date(promise_date)}
+        defaultDate={
+          moment(promise_date).isBefore(moment())
+            ? moment().toDate()
+            : new Date(promise_date)
+        }
         getNow={() =>
           moment(promise_date).isBefore(moment())
             ? moment().toDate()
@@ -261,7 +217,7 @@ const Calendar = ({
             : new Date(promise_date)
         }
         components={{
-          day: SlotComponent,
+          timeSlotWrapper: SlotComponent,
           event: EventComponent,
         }}
         toolbar={true}

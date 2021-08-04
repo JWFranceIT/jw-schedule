@@ -6,9 +6,7 @@ import { useRouter } from "next/router";
 import { login } from "../api/database";
 import moment from "moment-business-days";
 import en from "../locales/en";
-import fr from "../locales/fr";
-import bg from "../locales/bg";
-import hu from "../locales/hu";
+import { useIntl } from "react-intl";
 import styles from "../styles/Home.module.css";
 
 const FormLogin = ({ providers }) => {
@@ -16,22 +14,7 @@ const FormLogin = ({ providers }) => {
   const [, forceUpdate] = useState({}); // To disable submit button at the beginning.
   const dataSource = providers.flatMap((x) => x.name);
   const router = useRouter();
-
-  const { locale } = router;
-
-  let t = "";
-
-  switch (locale) {
-    case "bg":
-      t = bg;
-      break;
-    case "hu":
-      t = hu;
-      break;
-    default:
-      t = fr;
-      break;
-  }
+  const { formatMessage: t } = useIntl();
 
   const [error, setError] = useState(false);
   const [existingSlot, setExistingSlot] = useState(false);
@@ -75,19 +58,19 @@ const FormLogin = ({ providers }) => {
         onFinish={onFinish}
       >
         <Form.Item
-          label={t.label1}
+          label={t({ id: "label1" })}
           name="provider"
           rules={[
             {
               required: true,
-              message: t.messageLabel1,
+              message: t({ id: "messageLabel1" }),
             },
           ]}
           validateStatus={error ? "error" : ""}
         >
           <AutoComplete
             dataSource={dataSource}
-            placeholder={t.label1}
+            placeholder={t({ id: "label1" })}
             onSearch={(value) =>
               value.length >= 3 ? setState(true) : setState(false)
             }
@@ -103,17 +86,17 @@ const FormLogin = ({ providers }) => {
           />
         </Form.Item>
         <Form.Item
-          label={t.label2}
+          label={t({ id: "label2" })}
           name="product_order"
           rules={[
             {
               required: true,
-              message: t.messageLabel2,
+              message: t({ id: "messageLabel2" }),
             },
           ]}
           validateStatus={error ? "error" : ""}
         >
-          <Input placeholder={t.label2} autoComplete="off" />
+          <Input placeholder={t({ id: "label2" })} autoComplete="off" />
         </Form.Item>
         <Form.Item shouldUpdate>
           {() => (
@@ -125,7 +108,7 @@ const FormLogin = ({ providers }) => {
                   .length
               }
             >
-              {t.button_connect}
+              {t({ id: "buttonConnect" })}
             </Button>
           )}
         </Form.Item>

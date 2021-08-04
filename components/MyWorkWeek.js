@@ -12,7 +12,7 @@ function workWeekRange(date) {
     ? moment(now).isBusinessDay()
       ? moment(now).toDate()
       : moment(now).nextBusinessDay().toDate()
-    : moment(date).subtract(1, "days").toDate();
+    : moment(date).prevBusinessDay().toDate();
   for (let i = 0; i <= 4; i++) {
     const newDay = moment(firstOfWeek).businessAdd(i, "days").toDate();
     daysOfWeek.push(newDay);
@@ -36,9 +36,8 @@ MyWorkWeek.defaultProps = TimeGrid.defaultProps;
 MyWorkWeek.range = workWeekRange;
 
 MyWorkWeek.navigate = function (date, action) {
-  console.log({ date });
   const now = moment();
-
+  console.log({ date });
   switch (action) {
     case constants.navigate.PREVIOUS:
       if (!moment(date).isSameOrBefore(now)) {
@@ -46,11 +45,7 @@ MyWorkWeek.navigate = function (date, action) {
       }
       return;
     case constants.navigate.NEXT:
-      if (moment(date).isBefore(now)) {
-        return moment(date).businessAdd(2, "week");
-      } else {
-        return moment(date).businessAdd(1, "week");
-      }
+      return moment(date).businessAdd(1, "week");
 
     default:
       return date;

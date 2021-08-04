@@ -5,22 +5,32 @@
   top: 0;
   z-index: 1030;
   background-color: #fff;
-  padding: 1.875rem;
+  padding: 1.875rem 1.875rem 0.5rem 1.875rem;
   border-bottom: #1d446b 1px solid;
 }
-.logo {
-  float: left;
-}
+
 .HeaderTitle {
   color: #1d446b;
   text-align: center;
-  width: 75%;
-  float: left;
-  padding-right: 5%;
+}
+.deliveryInformations {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: large;
+  margin-top: 0.5rem;
 }
 
-.deliveryInformations {
+.banner {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #1d446b;
+}
+
+.titleDeliveryInformations {
   text-align: center;
-  width: 90%;
-  margin: auto;
+}
+
+.borderDeliveryInformations {
+  width: 25%;
+  border-bottom: 1px solid #1d446b;
 }

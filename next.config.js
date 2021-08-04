@@ -7,21 +7,11 @@ module.exports = withPWA({
   },
   reactStrictMode: true,
   env: {
-    SERVER: "https://jw-schedule.herokuapp.com",
+    // SERVER_PROD: "https://jw-schedule.herokuapp.com",
+    SERVER_LOCAL: "http://localhost:1337",
   },
   i18n: {
-    locales: [
-      "en",
-      "fr",
-      "bg",
-      "es_ES",
-      "lt",
-      "ro",
-      "hu",
-      "ru_RU",
-      "de_DE",
-      "et_EE",
-    ],
+    locales: ["en", "fr", "bg", "es", "lt", "ro", "hu", "ru", "de", "et"],
     defaultLocale: "fr",
     queryParameter: "lang",
     api: {

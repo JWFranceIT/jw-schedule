@@ -72,3 +72,8 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
   text-align: center !important;
   height: auto !important;
 }
+
+.slot-disable:hover {
+  cursor: not-allowed !important;
+  background-color: blue;
+}

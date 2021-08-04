@@ -1,0 +1,11 @@
+.slotDisable {
+  z-index: 1000;
+  background-color: grey !important;
+}
+.slotDisable:hover {
+  cursor: not-allowed !important;
+}
+
+.rbc-event-continues-later {
+  height: 100% !important;
+}

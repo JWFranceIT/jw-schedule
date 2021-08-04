@@ -4,7 +4,7 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import moment from "moment";
 import { validate } from "../api/database";
-
+import { useIntl } from "react-intl";
 export default function ConfirmationModal({
   show,
   toggle,
@@ -13,8 +13,12 @@ export default function ConfirmationModal({
   setEvent,
   setEvents,
 }) {
+  const { formatMessage: t } = useIntl();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState("");
+  const [modalText, setModalText] = useState(
+    t({ id: "textConfirmationModal" })
+  );
+
   const [isConfirm, setIsConfirm] = useState(false);
   const [isError, setIsError] = useState(false);
   const router = useRouter();
@@ -48,13 +52,9 @@ export default function ConfirmationModal({
       promise_date
     ).then((res) => {
       res.data?.errors
-        ? (setIsError(true), setModalText("ERROR"))
+        ? (setIsError(true), setModalText(t({ id: "erroConfirmation" })))
         : (setIsConfirm(true),
-          setModalText(
-            `Votre réservation est confirmé pour le ${moment(start).format(
-              "DD-MM-YYYY HH:mm"
-            )}`
-          ));
+          setModalText(modalText + moment(start).format("DD-MM-YYYY HH:mm")));
     });
     setTimeout(() => {
       setConfirmLoading(false);
@@ -66,7 +66,7 @@ export default function ConfirmationModal({
   return (
     <Modal
       style={{ top: "33%" }}
-      title="Réserver créneau"
+      title={t({ id: "titleConfirmationModal" })}
       visible={show}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -75,16 +75,20 @@ export default function ConfirmationModal({
       {!isEmpty(event) &&
         !isError &&
         !isConfirm &&
-        `Confirmez-vous votre réservation le ${moment(event.start).format(
-          "DD-MM-YYYY HH:mm"
-        )} ?`}
+        `${modalText} ${moment(event.start).format("DD-MM-YYYY HH:mm")} ?`}
+
       {isConfirm && (
         <h1>
           <span className="checked">&#10003;</span>
           {modalText}
         </h1>
       )}
-      {isError && <h1>{modalText}</h1>}
+      {isError && (
+        <h1>
+          <span style="font-size:50px;">&#10060;</span>
+          {modalText}
+        </h1>
+      )}
     </Modal>
   );
 }
