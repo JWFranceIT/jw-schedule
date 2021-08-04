@@ -15,8 +15,6 @@ export default function EditAppointementModal({
   startHourPlanning,
   endHourPlanning,
 }) {
-  console.log({ startHourPlanning });
-  console.log({ endHourPlanning });
   const [confirmLoading, setConfirmLoading] = useState(false);
   const router = useRouter();
   if (!event) return null;
@@ -35,7 +33,7 @@ export default function EditAppointementModal({
       promise_date,
       provider_name,
     } = event;
-    console.log("inOk", { event });
+
     // events.push(event);
     // setEvents(events);
 
