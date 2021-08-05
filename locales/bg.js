@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Предишен",
+  next: "Следващ",
+  today: "Днес",
+
   //MainLayout.js
   title: "Приемна за планиране",
   deliveryAdress: "Място на доставка",

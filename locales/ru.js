@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Предыдущий",
+  next: "Далее",
+  today: "Сегодня",
+
   //MainLayout.js
   title: "Прием по планированию",
   deliveryAdress: "Место доставки",

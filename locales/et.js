@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Eelmine",
+  next: "Järgmine",
+  today: "Täna",
+
   //MainLayout.js
   title: "Planeerimine Vastuvõtt",
   deliveryAdress: "Tarnekoht",

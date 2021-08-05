@@ -79,10 +79,10 @@ function MyApp({ Component, pageProps }) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Jeld Wen Reception</title>
+        <title>Planning Reception</title>
 
         <link rel="manifest" href="/manifest.json" />
-        <link href="/favicon.ico" rel="icon" type="image/png" sizes="16x16" />
+        {/*<link href="/favicon.ico" rel="icon" type="image/png" sizes="16x16" />*/}
 
         <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <meta name="theme-color" content="#317EFB" />

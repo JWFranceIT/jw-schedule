@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Anterior",
+  next: "Următorul",
+  today: "Astăzi",
+
   //MainLayout.js
   title: "Recepție de planificare",
   deliveryAdress: "Locul de livrare",

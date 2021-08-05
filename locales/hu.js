@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Előző",
+  next: "Következő",
+  today: "Ma",
+
   //MainLayout.js
   title: "Tervezési fogadás",
   deliveryAdress: "Szállítási hely",

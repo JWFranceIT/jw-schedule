@@ -17,20 +17,18 @@
   display: flex;
   justify-content: space-evenly;
   font-size: large;
-  margin-top: 0.5rem;
+  border-top: 1px solid #1d446b;
 }
 
 .banner {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #1d446b;
 }
 
 .titleDeliveryInformations {
   text-align: center;
 }
 
-.borderDeliveryInformations {
-  width: 25%;
-  border-bottom: 1px solid #1d446b;
+.deliveryInformations > p {
+  margin-top: 0.5rem;
 }

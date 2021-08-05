@@ -52,7 +52,7 @@ export default function ConfirmationModal({
       promise_date
     ).then((res) => {
       res.data?.errors
-        ? (setIsError(true), setModalText(t({ id: "erroConfirmation" })))
+        ? (setIsError(true), setModalText(t({ id: "errorConfirmation" })))
         : (setIsConfirm(true),
           setModalText(modalText + moment(start).format("DD-MM-YYYY HH:mm")));
     });
@@ -75,7 +75,9 @@ export default function ConfirmationModal({
       {!isEmpty(event) &&
         !isError &&
         !isConfirm &&
-        `${modalText} ${moment(event.start).format("DD-MM-YYYY HH:mm")} ?`}
+        `${t({ id: "textConfirmationModal" })} ${moment(event.start).format(
+          "DD-MM-YYYY HH:mm"
+        )} ?`}
 
       {isConfirm && (
         <h1>

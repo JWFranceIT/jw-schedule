@@ -27,12 +27,16 @@ export default function MainLayout({ children }) {
           <div className={styles.logo}>
             <Link href="/">
               <a>
+                {/*
+                //TODO add image for online
                 <Image
                   src="/logo-JW.png"
                   alt="logo jeld wen"
                   width={220}
                   height={40}
                 />
+              */}
+                LOGO INCOMING
               </a>
             </Link>
           </div>

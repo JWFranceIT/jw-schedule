@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Anterior",
+  next: "Siguiente",
+  today: "Hoy",
+
   //MainLayout.js
   title: "Recepción de la planificación",
   deliveryAdress: "Lugar de entrega",

@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Précédent",
+  next: "Suivant",
+  today: "Aujourd'hui",
+
   //MainLayout.js
   title: "Planning Réception",
   deliveryAdress: "Lieu de livraison",
@@ -18,6 +23,6 @@ export default {
 
   //ConfirmationModal.js
   titleConfirmationModal: "Réservation",
-  textConfirmationModal: "Votre réservation est confirmé le",
+  textConfirmationModal: "Votre réservation est confirmée le",
   errorConfirmation: "Une erreur s'est produite réservation non enregistrée",
 };

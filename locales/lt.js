@@ -1,4 +1,9 @@
 export default {
+  //Calendar.js
+  previous: "Ankstesnis.",
+  next: "Kitas",
+  today: "Šiandien",
+
   //MainLayout.js
   title: "Planavimo priėmimas",
   deliveryAdress: "Pristatymo vieta",
