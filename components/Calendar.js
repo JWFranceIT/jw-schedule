@@ -9,13 +9,14 @@ import MyWorkWeek from "./MyWorkWeek";
 import lodash from "lodash";
 import "moment/min/locales";
 import styles from "../styles/Calendar.module.css";
+import { useIntl } from "react-intl";
 
 const Calendar = ({
   // schedulesByZone: scheduleData,
   planningReceptionZone: timeReceptionZone,
 }) => {
   const router = useRouter();
-
+  const { formatMessage: t } = useIntl();
   moment.locale(router.locale);
   const localizer = momentLocalizer(moment);
   const {
@@ -176,9 +177,9 @@ const Calendar = ({
   };
 
   const messages = {
-    previous: "Précédent",
-    next: "Suivant",
-    today: "Aujourd'hui",
+    previous: t({ id: "previous" }),
+    next: t({ id: "next" }),
+    today: t({ id: "today" }),
   };
   const onSelectEvent = (event) => {
     setEvent(event);
