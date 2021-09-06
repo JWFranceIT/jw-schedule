@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment-business-days";
 import ConfirmationModal from "./ConfirmationModal";
 import EditAppointementModal from "./EditAppointementModal";
-import { usePlanningHours, useScheduleByZone } from "../api/bookings";
+import { useScheduleByZone } from "../api/bookings";
 import { useRouter, withRouter } from "next/router";
 import MyWorkWeek from "./MyWorkWeek";
 import lodash from "lodash";
@@ -11,10 +11,7 @@ import "moment/min/locales";
 import styles from "../styles/Calendar.module.css";
 import { useIntl } from "react-intl";
 
-const Calendar = ({
-  // schedulesByZone: scheduleData,
-  planningReceptionZone: timeReceptionZone,
-}) => {
+const Calendar = ({ planningReceptionZone: timeReceptionZone }) => {
   const router = useRouter();
   const { formatMessage: t } = useIntl();
   moment.locale(router.locale);
@@ -162,7 +159,10 @@ const Calendar = ({
       return `${event.provider.name}  ${event.product_order}  ${moment(
         event.promise_date
       ).format("DD-MM-YYYY")}`;
-    } else if (event.provider.id === id) {
+    } else if (
+      event.provider.id === id &&
+      event.product_order === product_order
+    ) {
       return "Your actual reservation";
     } else {
       return "";
@@ -185,11 +185,7 @@ const Calendar = ({
     setEvent(event);
     showModalEdit();
   };
-  console.log(
-    moment(promise_date).isBefore(moment())
-      ? moment().toDate()
-      : new Date(promise_date)
-  );
+
   return (
     <>
       <BigCalendar
