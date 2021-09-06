@@ -81,7 +81,7 @@ export const GET_PROVIDERS = `{
 
 export const GET_PLANNING_HOURS = `
 query($reception_zone: ID!){
-    receptionZone(id: $reception_zone){
+    receptionZone(id: $reception_zone}){
         start
         end
     }

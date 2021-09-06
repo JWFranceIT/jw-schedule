@@ -40,8 +40,3 @@ export const useSaveBooking = () => {
 
 export const useProviders = () =>
   useQuery("providers", () => defaultFetch(GET_PROVIDERS));
-
-export const usePlanningHours = ({ reception_zone }) =>
-  useQuery(["receptionZones", { reception_zone }], () =>
-    defaultFetch(GET_PLANNING_HOURS, { reception_zone })
-  );

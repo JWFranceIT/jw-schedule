@@ -37,7 +37,6 @@ MyWorkWeek.range = workWeekRange;
 
 MyWorkWeek.navigate = function (date, action) {
   const now = moment();
-  console.log({ date });
   switch (action) {
     case constants.navigate.PREVIOUS:
       if (!moment(date).isSameOrBefore(now)) {
