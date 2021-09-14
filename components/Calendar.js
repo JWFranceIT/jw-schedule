@@ -194,7 +194,7 @@ const Calendar = ({
     <>
       <BigCalendar
         messages={messages}
-        style={{ height: 1800, paddingBottom: 300 }}
+        style={{ height: 1800, paddingBottom: "25%" }}
         selectable={JW === "true" ? true : "ignoreEvents"}
         onSelectSlot={handleClickSlot}
         onSelectEvent={JW === "true" ? onSelectEvent : false}

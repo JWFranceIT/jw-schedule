@@ -27,16 +27,12 @@ export default function MainLayout({ children }) {
           <div className={styles.logo}>
             <Link href="/">
               <a>
-                {/*
-                //TODO add image for online
                 <Image
                   src="/logo-JW.png"
                   alt="logo jeld wen"
                   width={220}
                   height={40}
                 />
-              */}
-                LOGO INCOMING
               </a>
             </Link>
           </div>
@@ -89,10 +85,11 @@ export default function MainLayout({ children }) {
       <main>{children}</main>
       <footer
         style={{
-          position: "relative",
+          position: "fixed",
           bottom: 0,
           width: "100%",
-          backgroundColor: "red",
+          backgroundColor: "#1d446b",
+          color: "white",
           height: "50px",
         }}
       >
