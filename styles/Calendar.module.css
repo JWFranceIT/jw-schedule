@@ -9,3 +9,14 @@
 .rbc-event-continues-later {
   height: 100% !important;
 }
+@media (max-width: 767px) {
+.clignote {
+  color: red ;
+  animation: clignote 2s linear infinite;
+  text-align: center;
+  margin: 1em 0
+}
+@keyframes clignote {
+ 50% {opacity: 0};
+}
+}

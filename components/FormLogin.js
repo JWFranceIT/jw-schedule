@@ -43,7 +43,7 @@ const FormLogin = ({ providers }) => {
 
   return (
     <div className={styles.formContainer}>
-      {error && <h2 className={styles.error}>{t.errorCredentials}</h2>}
+      {error && <h2 className={styles.error}>{t({ id: "errorCredentials" })}</h2>}
       {existingSlot && (
         <ChangeAppointementModal
           data={data}

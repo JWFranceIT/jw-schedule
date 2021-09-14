@@ -7,6 +7,7 @@ export default {
   //MainLayout.js
   title: "Planning Réception",
   deliveryAdress: "Lieu de livraison",
+  deliveryZone: "Zone de déchargement",
   deliveryDate: "Date de livraison prévue",
 
   //FormLogin.js

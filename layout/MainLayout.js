@@ -74,7 +74,10 @@ export default function MainLayout({ children }) {
             <p>
               {t({ id: "deliveryAdress" })} : {adresse}
             </p>
-            <p>{name}</p>
+            <p>
+              {" "}
+              {t({ id: "deliveryZone" })} : {name}
+            </p>
             <p>
               {t({ id: "deliveryDate" })} :
               {moment(promise_date).format("DD MMMM YYYY")}

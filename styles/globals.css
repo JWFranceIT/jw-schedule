@@ -14,6 +14,7 @@ body {
   height: 100%;
 }
 footer {
+  display: none; /*TODO FOOTER */
   position: absolute;
   bottom: 0;
 }

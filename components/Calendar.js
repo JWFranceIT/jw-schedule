@@ -192,9 +192,10 @@ const Calendar = ({
   );
   return (
     <>
+    <div className={styles.clignote} >Rester appuyer sur votre créneau pour le réserver</div>    
       <BigCalendar
         messages={messages}
-        style={{ height: 1800, paddingBottom: "25%" }}
+        style={{ height: 1800, paddingBottom: "25%", display: "contents" }}
         selectable={JW === "true" ? true : "ignoreEvents"}
         onSelectSlot={handleClickSlot}
         onSelectEvent={JW === "true" ? onSelectEvent : false}
