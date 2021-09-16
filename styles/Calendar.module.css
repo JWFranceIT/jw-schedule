@@ -9,7 +9,9 @@
 .rbc-event-continues-later {
   height: 100% !important;
 }
-@media (max-width: 767px) {
+
+
+@media (pointer: coarse) {
 .clignote {
   color: red ;
   animation: clignote 2s linear infinite;
@@ -18,5 +20,10 @@
 }
 @keyframes clignote {
  50% {opacity: 0};
+}
+}
+@media (pointer: fine){
+.clignote{
+  display: none
 }
 }

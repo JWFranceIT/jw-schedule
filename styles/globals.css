@@ -47,15 +47,6 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
   border-bottom: none !important;
 }
 
-.rbc-calendar {
-  top: 12rem;
-  left: 0;
-  position: absolute;
-  min-width: 95%;
-  right: 0;
-  height: 85vh;
-}
-
 .ant-modal {
   top: 33%;
 }
@@ -70,11 +61,15 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
   height: 2px !important;
 }
 
+.rbc-toolbar {
+  margin: 20px auto !important;
+  width: 95% !important;
+}
 .checked {
   color: green;
 }
 
-.ant-select-selector {
+.ant-select-show-arrow > .ant-select-selector {
   text-align: center !important;
   height: auto !important;
 }
@@ -84,8 +79,7 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
   background-color: blue;
 }
 
-@media (max-width:744px) {
-  .rbc-calendar {
-    margin-top: 3em;
-  }
+.rbc-time-view {
+  width: 95% !important;
+  margin: 0 auto!important;
 }

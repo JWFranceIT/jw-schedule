@@ -36,6 +36,7 @@ export default function MainLayout({ children }) {
               </a>
             </Link>
           </div>
+          
 
           <h1 className={styles.HeaderTitle}>{t({ id: "title" })}</h1>
 
@@ -69,6 +70,18 @@ export default function MainLayout({ children }) {
             )}
           </Select>
         </div>
+        {/* <div className={styles.home}>
+            <Link href="/">
+              <a>
+              <Image
+                  src="/icons/exit.png"
+                  alt="return to home"
+                  width={25}
+                  height={25}
+                />
+              </a>
+            </Link>
+            </div> */}
         {adresse && promise_date && (
           <div className={styles.deliveryInformations}>
             <p>

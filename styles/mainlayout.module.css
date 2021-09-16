@@ -1,3 +1,5 @@
+
+
 .Header {
   z-index: 1030;
   background-color: #fff;
@@ -20,6 +22,8 @@
 .banner {
   display: flex;
   justify-content: space-between;
+  width: 90%;
+  margin: auto;
 }
 
 .titleDeliveryInformations {
@@ -29,9 +33,14 @@
 .deliveryInformations > p {
   margin-top: 0.5rem;
 }
+.home {
+  position: fixed;
+  top: 5%;
+  right: 5%;
+}
 
 /* CSS for little screen */
-@media (max-width: 768px) {
+@media (pointer: coarse) {
   .HeaderTitle {
     font-size: 1.2em;
     width: 50%;
@@ -50,8 +59,9 @@
   }
   .banner {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex-wrap: wrap;
     align-items: flex-end;
+    width: 100%;
   }
 }
