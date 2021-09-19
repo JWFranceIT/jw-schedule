@@ -65,6 +65,11 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
   margin: 20px auto !important;
   width: 95% !important;
 }
+
+.rbc-event-continues-later {
+  height: 100% !important;
+}
+
 .checked {
   color: green;
 }

@@ -43,10 +43,15 @@ MyWorkWeek.navigate = function (date, action) {
       if (!moment(date).isSameOrBefore(now)) {
         return moment(date).businessAdd(-1, "week");
       }
-      return;
+      
     case constants.navigate.NEXT:
-      return moment(date).businessAdd(1, "week");
+      if(!moment(date).isBusinessDay()){
+        return moment(date).businessAdd(1, "day");
+      }else{
 
+        return moment(date).businessAdd(1, "week");
+      }
+      
     default:
       return date;
   }
@@ -69,3 +74,6 @@ MyWorkWeek.title = function (date, _ref) {
   );
 };
 export default MyWorkWeek;
+
+
+

@@ -46,10 +46,9 @@ const Calendar = ({
   const endMinutePlanning = moment(timeReceptionZone?.end, "HH:mm:ss.sss")
     .subtract(30, "minutes")
     .minutes();
-
-  const endHourPlanning = moment(timeReceptionZone?.end, "HH:mm:ss.sss")
+  const endHourPlanning =  endMinutePlanning === 30 ? moment(timeReceptionZone?.end, "HH:mm:ss.sss")
     .subtract(1, "hour")
-    .hours();
+    .hours() :  moment(timeReceptionZone?.end, "HH:mm:ss.sss").hours()
 
   useEffect(() => {
     if (!scheduleData) return [];
@@ -72,6 +71,7 @@ const Calendar = ({
     endMinutePlanning,
     startHourPlanning,
     startMinutePlanning,
+    timeReceptionZone
   ]);
 
   const ColoredDateCellWrapper = ({ children }) => {
@@ -91,7 +91,7 @@ const Calendar = ({
   const showModalEdit = () => {
     setVisibleEdit(true);
   };
-  const fullday = false;
+  const fullday = false
   const handleClickSlot = (e) => {
     const { start, end } = e;
 
@@ -134,11 +134,15 @@ const Calendar = ({
   const test = lodash.sortBy(events, ["start"]);
   for (let i = 0; i < test.length; i++) {
     var a = moment(test[i].end);
+   
     var b = moment(test[i + 1]?.start);
+
     const toto = b.diff(a, "minutes");
+
     if (toto < time && toto > 0) {
       rangeSlots.push(moment(a).toDate());
     }
+    
   }
 
   const slotStyleGetter = (date) => {
