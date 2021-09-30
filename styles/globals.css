@@ -13,6 +13,11 @@ body {
   width: 100%;
   height: 100%;
 }
+
+main {
+  padding-bottom: 5%;
+  background-color: white;
+}
 footer {
   display: none; /*TODO FOOTER */
   position: absolute;

@@ -54,7 +54,7 @@ export default function ConfirmationModal({
       res.data?.errors
         ? (setIsError(true), setModalText(t({ id: "errorConfirmation" })))
         : (setIsConfirm(true),
-          setModalText(modalText + moment(start).format("DD-MM-YYYY HH:mm")));
+          setModalText(modalText + " " + moment(start).format("DD-MM-YYYY HH:mm")));
     });
     setTimeout(() => {
       setConfirmLoading(false);
@@ -75,9 +75,10 @@ export default function ConfirmationModal({
       {!isEmpty(event) &&
         !isError &&
         !isConfirm &&
-        `${t({ id: "textConfirmationModal" })} ${moment(event.start).format(
-          "DD-MM-YYYY HH:mm"
-        )} ?`}
+        // `${t({ id: "textConfirmationModal" })} ${moment(event.start).format(
+        //   "DD-MM-YYYY HH:mm"
+        // )} ?`}
+        "TOTO" }
 
       {isConfirm && (
         <h1>

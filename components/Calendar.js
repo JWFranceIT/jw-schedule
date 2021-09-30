@@ -10,6 +10,8 @@ import lodash from "lodash";
 import "moment/min/locales";
 import styles from "../styles/Calendar.module.css";
 import { useIntl } from "react-intl";
+import timeCalcul from "../lib/TimeCalcul";
+
 
 const Calendar = ({
   // schedulesByZone: scheduleData,
@@ -55,12 +57,11 @@ const Calendar = ({
     scheduleData.data.schedules.map((schedule) => {
       const regex = new RegExp("^(..)(\\d)(EXW+)([0-9]+)", "g");
       const toto = moment(schedule.start)
-        .set({ hour: startHourPlanning, minute: startMinutePlanning })
+        .set({ hour: 0, minute: 0 })
         .toDate();
       const tata = moment(schedule.end)
-        .set(moment(timeReceptionZone.end))
-        .toDate();
-
+      .set({ hour: 23, minute: 59 })
+      .toDate();
       schedule.start = schedule.full_day ? toto : new Date(schedule.start);
       schedule.end = schedule.full_day ? tata : new Date(schedule.end);
     }),
@@ -91,35 +92,22 @@ const Calendar = ({
   const showModalEdit = () => {
     setVisibleEdit(true);
   };
-  const fullday = false
+  
   const handleClickSlot = (e) => {
-    const { start, end } = e;
+    const { start} = e;
 
-    const test = moment(start).set({ hour: 8, minute: 0 }).toDate();
-    const test2 = moment(end).set({ hour: 17, minute: 29 }).toDate();
-    const newDateObj = moment(start).add(time, "m").toDate();
+    const end = moment(start).add(time, "m").toDate();
     const promiseDate = moment(promise_date).toDate();
-
-    if (fullday) {
-      setEvent({
-        start: test,
-        end: test2,
-        provider: id,
-        reception_zone: reception_zone,
-        product_order: product_order,
-        provider_name: provider,
-      });
-    } else {
       setEvent({
         ...e,
         provider: id,
         reception_zone: reception_zone,
         product_order: product_order,
-        end: newDateObj,
+        end: end,
         promise_date: promiseDate,
         provider_name: provider,
       });
-    }
+    
     showModal();
   };
 
@@ -130,22 +118,11 @@ const Calendar = ({
       },
     };
   };
-  const rangeSlots = [];
-  const test = lodash.sortBy(events, ["start"]);
-  for (let i = 0; i < test.length; i++) {
-    var a = moment(test[i].end);
-   
-    var b = moment(test[i + 1]?.start);
-
-    const toto = b.diff(a, "minutes");
-
-    if (toto < time && toto > 0) {
-      rangeSlots.push(moment(a).toDate());
-    }
-    
-  }
-
-  const slotStyleGetter = (date) => {
+  
+  const sortedEvents= lodash.sortBy(events, ["start"]);   
+  
+  const slotStyleGetter = (date) => { 
+    const rangeSlots = timeCalcul(date, sortedEvents, time, startHourPlanning, startMinutePlanning, endHourPlanning, endMinutePlanning);
     if (
       rangeSlots.find(
         (element) => moment(element).toString() == moment(date).toString()
@@ -153,14 +130,12 @@ const Calendar = ({
     ) {
       return {
         className: styles.slotDisable,
-        // style: {
-        //   backgroundColor: "grey",
-        // },
       };
     }
-    return { style: { backgroundColor: "#689D71" } };
+    return;
   };
 
+  
   const EventComponent = ({ event }) => {
     if (JW === "true") {
       return `${event.provider.name}  ${event.product_order}  ${moment(
@@ -173,12 +148,14 @@ const Calendar = ({
     }
   };
   const SlotComponent = ({ children, value }) => {
+    
     return React.cloneElement(React.Children.only(children), {
       style: {
         backgroundColor: "#689D71",
       },
     });
   };
+
 
   const messages = {
     previous: t({ id: "previous" }),
@@ -189,11 +166,7 @@ const Calendar = ({
     setEvent(event);
     showModalEdit();
   };
-  console.log(
-    moment(promise_date).isBefore(moment())
-      ? moment().toDate()
-      : new Date(promise_date)
-  );
+
   return (
     <>
     <div className={styles.clignote} >Rester appuyer sur votre créneau pour le réserver</div>    
@@ -207,22 +180,21 @@ const Calendar = ({
         views={{ myWeek: MyWorkWeek }}
         defaultView={"myWeek"}
         step={30}
-        defaultDate={
-          moment(promise_date).isBefore(moment())
-            ? moment().toDate()
-            : new Date(promise_date)
-        }
+        // defaultDate={
+        //   moment().startOf("day")
+        // }
         getNow={() =>
           moment(promise_date).isBefore(moment())
-            ? moment().toDate()
-            : new Date(promise_date)
+            ? new Date(moment().startOf("day"))
+            : new Date(moment(promise_date).startOf("day"))
         }
         onNavigate={() =>
-          moment(promise_date).isBefore(moment())
+          moment(promise_date).isBefore(moment().toDate())
             ? moment().toDate()
             : new Date(promise_date)
         }
         components={{
+         
           timeSlotWrapper: SlotComponent,
           event: EventComponent,
         }}
@@ -232,8 +204,8 @@ const Calendar = ({
         eventPropGetter={eventStyleGetter}
         slotPropGetter={slotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
-        max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
-        // longPressThreshold={50}
+        // max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
+        max={new Date(0, 0, 0, 21, 0)}
         onSelecting={handleClickSlot}
       />
       <ConfirmationModal
