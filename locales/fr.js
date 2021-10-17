@@ -9,6 +9,7 @@ export default {
   deliveryAdress: "Lieu de livraison",
   deliveryZone: "Zone de déchargement",
   deliveryDate: "Date de livraison prévue",
+  deliveryTime: "Temps de déchargement",
 
   //FormLogin.js
   label1: "Nom du fournisseur",
@@ -17,7 +18,7 @@ export default {
   messageLabel2: "Entrez un numéro de commande",
   buttonConnect: "Connexion",
   errorCredentials: "Erreur d'identification",
-  zoneUndefined: "Erreur zonage contactez gdulhoste@jeldwen.com (Eauze) ou smontcouquiol@jeldwen.com",
+  zoneUndefined: "Erreur zonage contactez gdulhoste@jeldwen.com (Eauze) ou smontcouquiol@jeldwen.com (Ussel / Ussac)",
 
   //ChangeAppointementModal.js
   titleChangeModal: "Modifier réservation",

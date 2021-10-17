@@ -120,7 +120,7 @@ const Calendar = ({
   });
 
   const sortedEvents = lodash.sortBy(currentEvents, ["start"]);
-  const rangeSlots = [];
+  let rangeSlots = [];
 
   for (let i = 0; i < sortedEvents.length; i++) {
     const endEventSlot = moment(sortedEvents[i].end);
@@ -143,12 +143,7 @@ const Calendar = ({
       startPlanning,
       "minutes"
     );
-    const endEventSlotSorted = moment(sortedEvents[i].end);
-    const endPlanning = moment(endEventSlotSorted)
-      .set("hours", endHourPlanning)
-      .set("minute", endMinutePlanning)
-      .set("second", 0)
-      .toDate();
+    
 
     if (diffBetweenStart < time && diffBetweenStart > 0) {
       for (let i = 0; i < diffBetweenStart; i += 30) {
@@ -171,12 +166,33 @@ const Calendar = ({
 
     const diffBetweenEndPlanning = byHours.diff(dateByHours, "minutes");
     const toto = events.some((event) => {
-      return moment(event.end).isSame(moment(date));
+      const diff = function (a, b) {
+        return a - b;
+      };
+      const sameSlot = ramda.sort(
+        diff,
+        ramda.uniq(
+          rangeSlots.filter((slot) =>
+            moment(slot).isBetween(
+              moment(event.start),
+              moment(event.end),
+              undefined,
+              "[)"
+            )
+          )
+        )
+      );
+      rangeSlots = rangeSlots.filter((slot) => !sameSlot.includes(slot));
+      return moment(event.end).isSame(moment(date)) && moment(event.start).isSame(moment(date));
     });
-
+    // const tata = rangeSlots.some((slot) => console.log({"SLOT":moment(slot).toDate()}))
     if (diffBetweenEndPlanning < time && toto) {
       for (let i = 0; i <= diffBetweenEndPlanning; i += 30) {
         rangeSlots.push(moment(date).add(i, "minute").toDate());
+      }
+    } else if (diffBetweenEndPlanning < time) {
+      for (let i = 0; i < diffBetweenEndPlanning; i += 30) {
+        rangeSlots.push(moment(byHours).subtract(i, "minute").toDate());
       }
     }
     if (
