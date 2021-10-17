@@ -16,7 +16,7 @@ export default function ConfirmationModal({
   const { formatMessage: t } = useIntl();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState(
-    t({ id: "textConfirmationModal" })
+    t({ id: "confirmationTextModal" })
   );
 
   const [isConfirm, setIsConfirm] = useState(false);
@@ -75,22 +75,22 @@ export default function ConfirmationModal({
       {!isEmpty(event) &&
         !isError &&
         !isConfirm &&
-        // `${t({ id: "textConfirmationModal" })} ${moment(event.start).format(
-        //   "DD-MM-YYYY HH:mm"
-        // )} ?`}
-        "TOTO" }
+        `${t({ id: "textConfirmationModal" })} ${moment(event.start).format(
+          "DD-MM-YYYY HH:mm"
+        )} ?`}
+         
 
       {isConfirm && (
-        <h1>
+        <h2>
           <span className="checked">&#10003;</span>
           {modalText}
-        </h1>
+        </h2>
       )}
       {isError && (
-        <h1>
+        <h2>
           <span style="font-size:50px;">&#10060;</span>
           {modalText}
-        </h1>
+        </h2>
       )}
     </Modal>
   );
