@@ -7,7 +7,9 @@ export default {
   //MainLayout.js
   title: "Planning reception",
   deliveryAdress: "Place of delivery",
+  deliveryZone: "Unloading area",
   deliveryDate: "Scheduled delivery date",
+  deliveryTime: "Unloading time",
 
   //FormLogin.js
   label1: "Supplier name",
@@ -16,6 +18,8 @@ export default {
   messageLabel2: "Enter an order number",
   buttonConnect: "Connection",
   errorCredentials: "Connection error",
+  zoneUndefined:
+    "Zoning error contact gdulhoste@jeldwen.com (Eauze) or smontcouquiol@jeldwen.com (Ussel / Ussac)",
 
   //ChangeAppointmentModal.js
   titleChangeModal: "Change the booking",
@@ -23,7 +27,7 @@ export default {
 
   //confirmationModal.js
   titleConfirmationModal: "Reservation",
-  textConfirmationModal: "Your booking will be confirmed on",
-  errorConfirmation:
-    "An error has occurred, the booking has not been registered",
+  confirmationTextModal: "Your booking is confirmed on",
+  textConfirmationModal: "Do you want to book on",
+  errorConfirmation: "An error has occurred, the booking has not been registered",
 };

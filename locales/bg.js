@@ -7,7 +7,9 @@ export default {
   //MainLayout.js
   title: "Приемна за планиране",
   deliveryAdress: "Място на доставка",
+  deliveryZone: "Зона за разтоварване",
   deliveryDate: "Планирана дата на доставка",
+  deliveryTime:"Време за разтоварване",
 
   //FormLogin.js
   label1: "Име на доставчика",
@@ -16,13 +18,14 @@ export default {
   messageLabel2: "Въведете номер на поръчка",
   buttonConnect: "връзка",
   errorCredentials: "Грешка при влизане",
-
+  zoneUndefined: "Контакт за грешка при зониране gdulhoste@jeldwen.com (Eauze) ou smontcouquiol@jeldwen.com (Ussel / Ussac)",
   //ChangeAppointmentModal.js
   titleChangeModal: "Промяна на резервацията",
   textChangeModal: "Сигурни ли сте, че искате да промените резервацията си от",
 
   //ConfirmationModal.js
   titleConfirmationModal: "резервация",
-  textConfirmationModal: "Вашата резервация е потвърдена на",
+  confirmationTextModal: "Вашата резервация е потвърдена на",
+  textConfirmationModal: "Искате ли да резервирате",
   errorConfirmation: "Възникна грешка, резервацията не е регистрирана",
 };

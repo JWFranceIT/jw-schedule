@@ -17,6 +17,7 @@ const FormLogin = ({ providers }) => {
   const { formatMessage: t } = useIntl();
 
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("errorCredentials");
   const [existingSlot, setExistingSlot] = useState(false);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -25,6 +26,7 @@ const FormLogin = ({ providers }) => {
   const [data, setData] = useState([]);
   const onFinish = async ({ provider, product_order }) => {
     login(provider, product_order).then((data) => {
+      console.log({data})
       if (data.statusCode === 200 && !data.isExist) {
         router.replace({
           pathname: "/schedule",
@@ -35,15 +37,17 @@ const FormLogin = ({ providers }) => {
         setExistingSlot(true);
         setVisible(true);
       } else {
+        setErrorMessage(data.message)
         setError(true);
       }
     });
   };
   const [state, setState] = useState(false);
-
+  console.log({errorMessage})
   return (
     <div className={styles.formContainer}>
-      {error && <h2 className={styles.error}>{t({ id: "errorCredentials" })}</h2>}
+  {/*error && <h2 className={styles.error}>{t({ id: "errorCredentials" })}</h2>*/}
+      {error && <h2 className={styles.error}>{t({id: errorMessage})}</h2>}
       {existingSlot && (
         <ChangeAppointementModal
           data={data}
@@ -72,15 +76,15 @@ const FormLogin = ({ providers }) => {
             dataSource={dataSource}
             placeholder={t({ id: "label1" })}
             onSearch={(value) =>
-              value.length >= 3 ? setState(true) : setState(false)
+              value.length >= 3 ? setState(true) && setError(false) : setState(false)
             }
-            onSelect={() => setState(false)}
+            onSelect={() => {setState(false) && setError(false)}}
             filterOption={(inputValue, option) =>
               option.props.children
                 .toUpperCase()
                 .indexOf(inputValue.toUpperCase()) !== -1
             }
-            onBlur={() => setState(false)}
+            onBlur={() => {setState(false) && setError(false)}}
             open={state}
             defaultActiveFirstOption={false}
           />

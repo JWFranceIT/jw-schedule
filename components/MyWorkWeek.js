@@ -5,19 +5,22 @@ import moment from "moment-business-days";
 import TimeGrid from "react-big-calendar/lib/TimeGrid";
 import constants from "../utils/constants";
 
+const now = moment().hours(0).minutes(0);
+
 function workWeekRange(date) {
-  const now = moment();
-  const daysOfWeek = [];
+  const range = [];
   var firstOfWeek = moment(date).isBefore(now)
     ? moment(now).isBusinessDay()
       ? moment(now).toDate()
       : moment(now).nextBusinessDay().toDate()
     : moment(date).prevBusinessDay().toDate();
+    
   for (let i = 0; i <= 4; i++) {
     const newDay = moment(firstOfWeek).businessAdd(i, "days").toDate();
-    daysOfWeek.push(newDay);
+    range.push(newDay);
   }
-  return daysOfWeek;
+  
+  return range;
 }
 const MyWorkWeek = (props) => {
   let { date } = props;
@@ -36,17 +39,20 @@ MyWorkWeek.defaultProps = TimeGrid.defaultProps;
 MyWorkWeek.range = workWeekRange;
 
 MyWorkWeek.navigate = function (date, action) {
-  const now = moment();
-  console.log({ date });
   switch (action) {
     case constants.navigate.PREVIOUS:
       if (!moment(date).isSameOrBefore(now)) {
         return moment(date).businessAdd(-1, "week");
       }
-      return;
+      
     case constants.navigate.NEXT:
-      return moment(date).businessAdd(1, "week");
+      if(!moment(date).isBusinessDay()){
+        return moment(date).businessAdd(1, "day");
+      }else{
 
+        return moment(date).businessAdd(1, "week");
+      }
+      
     default:
       return date;
   }
@@ -69,3 +75,6 @@ MyWorkWeek.title = function (date, _ref) {
   );
 };
 export default MyWorkWeek;
+
+
+

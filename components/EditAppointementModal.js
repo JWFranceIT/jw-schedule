@@ -51,7 +51,7 @@ export default function EditAppointementModal({
     //   });
     // }, 2000);
   };
-  console.log({ event });
+  
   const onOk = (value) => {
     console.log({ value });
   };

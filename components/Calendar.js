@@ -10,6 +10,9 @@ import lodash from "lodash";
 import "moment/min/locales";
 import styles from "../styles/Calendar.module.css";
 import { useIntl } from "react-intl";
+import * as ramda from "ramda";
+
+const now = moment().hours(0).minutes(0);
 
 const Calendar = ({
   // schedulesByZone: scheduleData,
@@ -34,7 +37,7 @@ const Calendar = ({
   const [events, setEvents] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
-
+  const [currentDate, setCurrentDate] = useState([]);
   const startHourPlanning = moment(
     timeReceptionZone?.start,
     "HH:mm:ss.sss"
@@ -43,25 +46,23 @@ const Calendar = ({
     timeReceptionZone?.start,
     "HH:mm:ss.sss"
   ).minutes();
+
   const endMinutePlanning = moment(timeReceptionZone?.end, "HH:mm:ss.sss")
     .subtract(30, "minutes")
     .minutes();
-
-  const endHourPlanning = moment(timeReceptionZone?.end, "HH:mm:ss.sss")
-    .subtract(1, "hour")
-    .hours();
+  const endHourPlanning =
+    endMinutePlanning === 30
+      ? moment(timeReceptionZone?.end, "HH:mm:ss.sss")
+          .subtract(1, "hour")
+          .hours()
+      : moment(timeReceptionZone?.end, "HH:mm:ss.sss").hours();
 
   useEffect(() => {
     if (!scheduleData) return [];
     scheduleData.data.schedules.map((schedule) => {
       const regex = new RegExp("^(..)(\\d)(EXW+)([0-9]+)", "g");
-      const toto = moment(schedule.start)
-        .set({ hour: startHourPlanning, minute: startMinutePlanning })
-        .toDate();
-      const tata = moment(schedule.end)
-        .set(moment(timeReceptionZone.end))
-        .toDate();
-
+      const toto = moment(schedule.start).set({ hour: 0, minute: 0 }).toDate();
+      const tata = moment(schedule.end).set({ hour: 23, minute: 59 }).toDate();
       schedule.start = schedule.full_day ? toto : new Date(schedule.start);
       schedule.end = schedule.full_day ? tata : new Date(schedule.end);
     }),
@@ -72,15 +73,8 @@ const Calendar = ({
     endMinutePlanning,
     startHourPlanning,
     startMinutePlanning,
+    timeReceptionZone,
   ]);
-
-  const ColoredDateCellWrapper = ({ children }) => {
-    return React.cloneElement(React.Children.only(children), {
-      style: {
-        backgroundColor: "#689D71",
-      },
-    });
-  };
 
   const showModal = () => {
     setVisible(true);
@@ -91,35 +85,22 @@ const Calendar = ({
   const showModalEdit = () => {
     setVisibleEdit(true);
   };
-  const fullday = false;
+
   const handleClickSlot = (e) => {
-    const { start, end } = e;
+    const { start } = e;
 
-    const test = moment(start).set({ hour: 8, minute: 0 }).toDate();
-    const test2 = moment(end).set({ hour: 17, minute: 29 }).toDate();
-    const newDateObj = moment(start).add(time, "m").toDate();
+    const end = moment(start).add(time, "m").toDate();
     const promiseDate = moment(promise_date).toDate();
+    setEvent({
+      ...e,
+      provider: id,
+      reception_zone: reception_zone,
+      product_order: product_order,
+      end: end,
+      promise_date: promiseDate,
+      provider_name: provider,
+    });
 
-    if (fullday) {
-      setEvent({
-        start: test,
-        end: test2,
-        provider: id,
-        reception_zone: reception_zone,
-        product_order: product_order,
-        provider_name: provider,
-      });
-    } else {
-      setEvent({
-        ...e,
-        provider: id,
-        reception_zone: reception_zone,
-        product_order: product_order,
-        end: newDateObj,
-        promise_date: promiseDate,
-        provider_name: provider,
-      });
-    }
     showModal();
   };
 
@@ -130,32 +111,103 @@ const Calendar = ({
       },
     };
   };
-  const rangeSlots = [];
-  const test = lodash.sortBy(events, ["start"]);
-  for (let i = 0; i < test.length; i++) {
-    var a = moment(test[i].end);
-    var b = moment(test[i + 1]?.start);
-    const toto = b.diff(a, "minutes");
-    if (toto < time && toto > 0) {
-      rangeSlots.push(moment(a).toDate());
+
+  const currentEvents = [];
+  events.map((event) => {
+    if (moment(event.start).isAfter(now)) {
+      currentEvents.push(event);
+    }
+  });
+
+  const sortedEvents = lodash.sortBy(currentEvents, ["start"]);
+  let rangeSlots = [];
+
+  for (let i = 0; i < sortedEvents.length; i++) {
+    const endEventSlot = moment(sortedEvents[i].end);
+    const startEventSlot = moment(sortedEvents[i + 1]?.start);
+    const diffBetweenTwoSlot = startEventSlot.diff(endEventSlot, "minutes");
+
+    if (diffBetweenTwoSlot < time && diffBetweenTwoSlot > 0) {
+      for (let i = 0; i < diffBetweenTwoSlot; i += 30) {
+        rangeSlots.push(moment(endEventSlot).add({ minute: i }).toDate());
+      }
+    }
+
+    const startEventSlotSorted = moment(sortedEvents[i].start);
+    const startPlanning = moment(startEventSlot)
+      .set("hours", startHourPlanning)
+      .set("minute", startMinutePlanning)
+      .set("second", 0)
+      .toDate();
+    const diffBetweenStart = moment(startEventSlotSorted).diff(
+      startPlanning,
+      "minutes"
+    );
+    
+
+    if (diffBetweenStart < time && diffBetweenStart > 0) {
+      for (let i = 0; i < diffBetweenStart; i += 30) {
+        rangeSlots.push(
+          moment(startPlanning)
+            .set("minute", startMinutePlanning + i)
+            .toDate()
+        );
+      }
     }
   }
 
-  const slotStyleGetter = (date) => {
+  const SlotStyleGetter = (date) => {
+    const dateByHours = moment(date, "HH:mm:ss").toDate();
+
+    const byHours = moment(date, "HH:mm:ss")
+      .set("hours", endHourPlanning)
+      .set("minute", endMinutePlanning)
+      .set("second", 0);
+
+    const diffBetweenEndPlanning = byHours.diff(dateByHours, "minutes");
+    const toto = events.some((event) => {
+      const diff = function (a, b) {
+        return a - b;
+      };
+      const sameSlot = ramda.sort(
+        diff,
+        ramda.uniq(
+          rangeSlots.filter((slot) =>
+            moment(slot).isBetween(
+              moment(event.start),
+              moment(event.end),
+              undefined,
+              "[)"
+            )
+          )
+        )
+      );
+      rangeSlots = rangeSlots.filter((slot) => !sameSlot.includes(slot));
+      return moment(event.end).isSame(moment(date)) && moment(event.start).isSame(moment(date));
+    });
+    // const tata = rangeSlots.some((slot) => console.log({"SLOT":moment(slot).toDate()}))
+    if (diffBetweenEndPlanning < time && toto) {
+      for (let i = 0; i <= diffBetweenEndPlanning; i += 30) {
+        rangeSlots.push(moment(date).add(i, "minute").toDate());
+      }
+    } else if (diffBetweenEndPlanning < time) {
+      for (let i = 0; i < diffBetweenEndPlanning; i += 30) {
+        rangeSlots.push(moment(byHours).subtract(i, "minute").toDate());
+      }
+    }
     if (
-      rangeSlots.find(
+      lodash.filter(
+        rangeSlots,
         (element) => moment(element).toString() == moment(date).toString()
-      ) !== undefined
+      ).length !== 0
     ) {
       return {
         className: styles.slotDisable,
-        // style: {
-        //   backgroundColor: "grey",
-        // },
       };
     }
-    return { style: { backgroundColor: "#689D71" } };
   };
+  console.log({ rangeSlots });
+  // console.log(ramda.uniq(ramda.values(rangeSlots)));
 
   const EventComponent = ({ event }) => {
     if (JW === "true") {
@@ -185,14 +237,12 @@ const Calendar = ({
     setEvent(event);
     showModalEdit();
   };
-  console.log(
-    moment(promise_date).isBefore(moment())
-      ? moment().toDate()
-      : new Date(promise_date)
-  );
+
   return (
     <>
-    <div className={styles.clignote} >Rester appuyer sur votre créneau pour le réserver</div>    
+      <div className={styles.clignote}>
+        Rester appuyer sur votre créneau pour le réserver
+      </div>
       <BigCalendar
         messages={messages}
         style={{ height: 1800, paddingBottom: "25%", display: "contents" }}
@@ -203,18 +253,17 @@ const Calendar = ({
         views={{ myWeek: MyWorkWeek }}
         defaultView={"myWeek"}
         step={30}
-        defaultDate={
-          moment(promise_date).isBefore(moment())
-            ? moment().toDate()
-            : new Date(promise_date)
-        }
+        // defaultDate={
+        //   moment().startOf("day")
+        // }
+
         getNow={() =>
           moment(promise_date).isBefore(moment())
-            ? moment().toDate()
-            : new Date(promise_date)
+            ? new Date(moment().startOf("day"))
+            : new Date(moment(promise_date).startOf("day"))
         }
         onNavigate={() =>
-          moment(promise_date).isBefore(moment())
+          moment(promise_date).isBefore(moment().toDate())
             ? moment().toDate()
             : new Date(promise_date)
         }
@@ -226,10 +275,9 @@ const Calendar = ({
         localizer={localizer}
         timeslots={1}
         eventPropGetter={eventStyleGetter}
-        slotPropGetter={slotStyleGetter}
+        slotPropGetter={SlotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
-        // longPressThreshold={50}
         onSelecting={handleClickSlot}
       />
       <ConfirmationModal

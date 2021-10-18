@@ -7,8 +7,9 @@ export default {
   //MainLayout.js
   title: "Planavimo priėmimas",
   deliveryAdress: "Pristatymo vieta",
+  deliveryZone: "Iškrovimo vieta",
   deliveryDate: "Planuojama pristatymo data",
-
+  deliveryTime: "Iškrovimo laikas",
   //FormLogin.js
   label1: "Tiekėjo pavadinimas",
   label2: "Užsakymo numeris",
@@ -16,13 +17,14 @@ export default {
   messageLabel2: "Įveskite užsakymo numerį",
   buttonConnect: "Prisijungimas",
   errorCredentials: "Ryšio klaida",
-
+  zoneUndefined: "Zonavimo klaidos adresas gdulhoste@jeldwen.com (Eauze) arba smontcouquiol@jeldwen.com (Ussel / Ussac)",
   //ChangeApppointmentModal.js
   titleChangeModal: "Pakeisti užsakymą",
   textChangeModal: "Ar tikrai norite pakeisti užsakymą iš",
 
   //confirmationModal.js
   titleConfirmationModal: "Užsakymas",
-  textConfirmationModal: "Jūsų užsakymas bus patvirtintas",
+  confirmationTextModal: "Jūsų užsakymas patvirtinamas",
+  textConfirmationModal: "Ar norite užsisakyti",
   errorConfirmation: "Įvyko klaida, užsakymas neužregistruotas",
 };

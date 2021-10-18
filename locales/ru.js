@@ -7,8 +7,9 @@ export default {
   //MainLayout.js
   title: "Прием по планированию",
   deliveryAdress: "Место доставки",
+  deliveryZone: "Зона разгрузки",
   deliveryDate: "Запланированная дата доставки",
-
+  deliveryTime: "Время разгрузки",
   //FormLogin.js
   label1: "Название поставщика",
   label2: "Номер заказа",
@@ -16,13 +17,14 @@ export default {
   messageLabel2: "Введите номер заказа",
   buttonConnect: "Подключение",
   errorCredentials: "Ошибка подключения",
-
+  zoneUndefined: "Ошибка зонирования свяжитесь с gdulhoste@jeldwen.com (Eauze) или smontcouquiol@jeldwen.com (Ussel / Ussac).",
   //ChangeAppointmentModal.js
   titleChangeModal: "Изменить бронирование",
   textChangeModal: "Вы уверены, что хотите изменить бронирование с",
 
   //confirmationModal.js
   titleConfirmationModal: "Бронирование",
-  textConfirmationModal: "Ваше бронирование будет подтверждено при",
+  confirmationTextModal: "Ваше бронирование подтверждается на",
+  textConfirmationModal: "Вы хотите забронировать номер на",
   errorConfirmation: "Произошла ошибка, бронирование не было зарегистрировано",
 };

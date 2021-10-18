@@ -14,12 +14,13 @@ export default function MainLayout({ children }) {
   const locale = router.locale;
   const locales = router.locales;
   const { formatMessage: t } = useIntl();
-  const { adresse, promise_date, name } = router.query;
+  const { adresse, promise_date, name, time } = router.query;
   moment.locale(locale);
   const handleChange = (value) => {
     router.replace(router.asPath, router.asPath, { locale: value });
   };
-
+  const hours = moment.duration(time, "minute").get("hour")
+  const minutes = moment.duration(time, "minute").get("minute")
   return (
     <>
       <header className={styles.Header}>
@@ -94,6 +95,9 @@ export default function MainLayout({ children }) {
             <p>
               {t({ id: "deliveryDate" })} :
               {moment(promise_date).format("DD MMMM YYYY")}
+            </p>
+            <p>
+              {t({id: "deliveryTime"})} : { hours + ":" + minutes}  
             </p>
           </div>
         )}
