@@ -7,8 +7,8 @@ module.exports = withPWA({
   },
   reactStrictMode: true,
   env: {
-    // SERVER_LOCAL: "https://jw-schedule.herokuapp.com",
-    SERVER_LOCAL: "http://localhost:1337",
+    SERVER_LOCAL: "https://jw-planning-admin.herokuapp.com",
+    //SERVER_LOCAL: "http://localhost:1337",
   },
   i18n: {
     locales: ["en", "fr", "bg", "es", "lt", "ro", "hu", "ru", "de", "et"],
