@@ -6,6 +6,7 @@ import {
   GET_SCHEDULES_BY_ZONE,
   SAVE_BOOKING,
   GET_PLANNING_HOURS,
+  DELETE_SCHEDULE,
 } from "./queries";
 
 export const useAllSchedules = () =>
@@ -38,6 +39,18 @@ export const useSaveBooking = () => {
   return mutation;
 };
 
+export const useDeleteBooking = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (variables) => defaultFetch(DELETE_SCHEDULE, variables),
+    {
+      onError: (error) => {
+        return error;
+      },
+    }
+  );
+  return mutation;
+};
 export const useProviders = () =>
   useQuery("providers", () => defaultFetch(GET_PROVIDERS));
 

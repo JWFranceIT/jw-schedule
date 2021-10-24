@@ -37,7 +37,8 @@ const Calendar = ({
   const [events, setEvents] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visibleEdit, setVisibleEdit] = useState(false);
-  const [currentDate, setCurrentDate] = useState([]);
+
+  const promiseDate = moment(promise_date).toDate();
   const startHourPlanning = moment(
     timeReceptionZone?.start,
     "HH:mm:ss.sss"
@@ -90,7 +91,7 @@ const Calendar = ({
     const { start } = e;
 
     const end = moment(start).add(time, "m").toDate();
-    const promiseDate = moment(promise_date).toDate();
+
     setEvent({
       ...e,
       provider: id,
@@ -122,49 +123,25 @@ const Calendar = ({
   const sortedEvents = lodash.sortBy(currentEvents, ["start"]);
   let rangeSlots = [];
 
-  for (let i = 0; i < sortedEvents.length; i++) {
-    const endEventSlot = moment(sortedEvents[i].end);
-    const startEventSlot = moment(sortedEvents[i + 1]?.start);
-    const diffBetweenTwoSlot = startEventSlot.diff(endEventSlot, "minutes");
-
-    if (diffBetweenTwoSlot < time && diffBetweenTwoSlot > 0) {
-      for (let i = 0; i < diffBetweenTwoSlot; i += 30) {
-        rangeSlots.push(moment(endEventSlot).add({ minute: i }).toDate());
-      }
+  sortedEvents.forEach((sortedEvent) => {
+    const startEventSlotSorted = moment(sortedEvent.start);
+    for (let i = 0; i < time; i += 30) {
+      rangeSlots.push(
+        moment(startEventSlotSorted).subtract({ minute: i }).toDate()
+      );
     }
-
-    const startEventSlotSorted = moment(sortedEvents[i].start);
-    const startPlanning = moment(startEventSlot)
-      .set("hours", startHourPlanning)
-      .set("minute", startMinutePlanning)
-      .set("second", 0)
-      .toDate();
-    const diffBetweenStart = moment(startEventSlotSorted).diff(
-      startPlanning,
-      "minutes"
-    );
-    
-
-    if (diffBetweenStart < time && diffBetweenStart > 0) {
-      for (let i = 0; i < diffBetweenStart; i += 30) {
-        rangeSlots.push(
-          moment(startPlanning)
-            .set("minute", startMinutePlanning + i)
-            .toDate()
-        );
-      }
-    }
-  }
+  });
 
   const SlotStyleGetter = (date) => {
     const dateByHours = moment(date, "HH:mm:ss").toDate();
-
-    const byHours = moment(date, "HH:mm:ss")
+    const endPlanningByHours = moment(date, "HH:mm:ss")
       .set("hours", endHourPlanning)
       .set("minute", endMinutePlanning)
       .set("second", 0);
-
-    const diffBetweenEndPlanning = byHours.diff(dateByHours, "minutes");
+    const diffBetweenEndPlanning = endPlanningByHours.diff(
+      dateByHours,
+      "minutes"
+    );
     const toto = events.some((event) => {
       const diff = function (a, b) {
         return a - b;
@@ -183,16 +160,21 @@ const Calendar = ({
         )
       );
       rangeSlots = rangeSlots.filter((slot) => !sameSlot.includes(slot));
-      return moment(event.end).isSame(moment(date)) && moment(event.start).isSame(moment(date));
+      return (
+        moment(event.end).isSame(moment(date)) &&
+        moment(event.start).isSame(moment(date))
+      );
     });
-    // const tata = rangeSlots.some((slot) => console.log({"SLOT":moment(slot).toDate()}))
+
     if (diffBetweenEndPlanning < time && toto) {
       for (let i = 0; i <= diffBetweenEndPlanning; i += 30) {
         rangeSlots.push(moment(date).add(i, "minute").toDate());
       }
     } else if (diffBetweenEndPlanning < time) {
       for (let i = 0; i < diffBetweenEndPlanning; i += 30) {
-        rangeSlots.push(moment(byHours).subtract(i, "minute").toDate());
+        rangeSlots.push(
+          moment(endPlanningByHours).subtract(i, "minute").toDate()
+        );
       }
     }
     if (
@@ -206,8 +188,6 @@ const Calendar = ({
       };
     }
   };
-  console.log({ rangeSlots });
-  // console.log(ramda.uniq(ramda.values(rangeSlots)));
 
   const EventComponent = ({ event }) => {
     if (JW === "true") {
@@ -220,7 +200,7 @@ const Calendar = ({
       return "";
     }
   };
-  const SlotComponent = ({ children, value }) => {
+  const SlotComponent = ({ children }) => {
     return React.cloneElement(React.Children.only(children), {
       style: {
         backgroundColor: "#689D71",
@@ -234,7 +214,14 @@ const Calendar = ({
     today: t({ id: "today" }),
   };
   const onSelectEvent = (event) => {
-    setEvent(event);
+    setEvent({
+      ...event,
+      provider: id,
+      reception_zone: reception_zone,
+      product_order: product_order,
+      promise_date: promiseDate,
+      provider_name: provider,
+    });
     showModalEdit();
   };
 
@@ -253,10 +240,6 @@ const Calendar = ({
         views={{ myWeek: MyWorkWeek }}
         defaultView={"myWeek"}
         step={30}
-        // defaultDate={
-        //   moment().startOf("day")
-        // }
-
         getNow={() =>
           moment(promise_date).isBefore(moment())
             ? new Date(moment().startOf("day"))
@@ -288,18 +271,22 @@ const Calendar = ({
         setEvent={setEvent}
         setEvents={setEvents}
       />
-      {JW === "true" && (
-        <EditAppointementModal
-          show={visibleEdit}
-          toggle={setVisibleEdit}
-          event={event}
-          events={events}
-          setEvent={setEvent}
-          setEvents={setEvents}
-          startHourPlanning={startHourPlanning}
-          endHourPlanning={endHourPlanning}
-        />
-      )}
+      {
+        //TODO EDIT MODAL TO CHANGE EVENT ON PLANNING
+        // {JW === "true" && (
+        //   <EditAppointementModal
+        //     show={visibleEdit}
+        //     toggle={setVisibleEdit}
+        //     event={event}
+        //     events={events}
+        //     setEvent={setEvent}
+        //     setEvents={setEvents}
+        //     startHourPlanning={startHourPlanning}
+        //     endHourPlanning={endHourPlanning}
+        //     reception_zone={reception_zone}
+        //   />
+        // )
+      }
     </>
   );
 };

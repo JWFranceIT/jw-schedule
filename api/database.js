@@ -18,19 +18,14 @@ export const defaultFetch = async (query, variables = {}) => {
 };
 
 export const login = async (provider, product_order) => {
-    console.log("LA")
-    const log = await fetch(
-      process.env.SERVER_LOCAL + "/product-orders/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ provider, product_order }),
-      }
-    ).then((res) => res.json());
-      console.log({log})
-    return log;
+  const log = await fetch(process.env.SERVER_LOCAL + "/product-orders/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ provider, product_order }),
+  }).then((res) => res.json());
+  return log;
 };
 
 export const validate = async (

@@ -4,8 +4,6 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import ChangeAppointementModal from "./ChangeAppointementModal";
 import { useRouter } from "next/router";
 import { login } from "../api/database";
-import moment from "moment-business-days";
-import en from "../locales/en";
 import { useIntl } from "react-intl";
 import styles from "../styles/Home.module.css";
 
@@ -26,7 +24,6 @@ const FormLogin = ({ providers }) => {
   const [data, setData] = useState([]);
   const onFinish = async ({ provider, product_order }) => {
     login(provider, product_order).then((data) => {
-      console.log({data})
       if (data.statusCode === 200 && !data.isExist) {
         router.replace({
           pathname: "/schedule",
@@ -37,17 +34,17 @@ const FormLogin = ({ providers }) => {
         setExistingSlot(true);
         setVisible(true);
       } else {
-        setErrorMessage(data.message)
+        setErrorMessage(data.message);
         setError(true);
       }
     });
   };
   const [state, setState] = useState(false);
-  console.log({errorMessage})
+
   return (
     <div className={styles.formContainer}>
-  {/*error && <h2 className={styles.error}>{t({ id: "errorCredentials" })}</h2>*/}
-      {error && <h2 className={styles.error}>{t({id: errorMessage})}</h2>}
+      {/*error && <h2 className={styles.error}>{t({ id: "errorCredentials" })}</h2>*/}
+      {error && <h2 className={styles.error}>{t({ id: errorMessage })}</h2>}
       {existingSlot && (
         <ChangeAppointementModal
           data={data}
@@ -76,15 +73,21 @@ const FormLogin = ({ providers }) => {
             dataSource={dataSource}
             placeholder={t({ id: "label1" })}
             onSearch={(value) =>
-              value.length >= 3 ? setState(true) && setError(false) : setState(false)
+              value.length >= 3
+                ? setState(true) && setError(false)
+                : setState(false)
             }
-            onSelect={() => {setState(false) && setError(false)}}
+            onSelect={() => {
+              setState(false) && setError(false);
+            }}
             filterOption={(inputValue, option) =>
               option.props.children
                 .toUpperCase()
                 .indexOf(inputValue.toUpperCase()) !== -1
             }
-            onBlur={() => {setState(false) && setError(false)}}
+            onBlur={() => {
+              setState(false) && setError(false);
+            }}
             open={state}
             defaultActiveFirstOption={false}
           />
