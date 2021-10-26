@@ -47,6 +47,9 @@ export const useDeleteBooking = () => {
       onError: (error) => {
         return error;
       },
+      onSuccess: () => {
+        queryClient.refetchQueries(["schedules"]);
+      },
     }
   );
   return mutation;

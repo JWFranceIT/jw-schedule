@@ -87,8 +87,8 @@ query($reception_zone: ID!){
     }
 }`;
 
-export const DELETE_SCHEDULE = `mutation deleteSchedule($variables: deleteScheduleInput ) {
-    deleteSchedule(input:$variables) {
+export const DELETE_SCHEDULE = `mutation deleteSchedule($id: ID! ) {
+    deleteSchedule(input:{where: {id: $id}}) {
       schedule {
        id
       }

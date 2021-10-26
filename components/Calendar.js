@@ -187,8 +187,6 @@ const Calendar = ({
       };
     }
   };
-  console.log({ rangeSlots });
-  // console.log(ramda.uniq(ramda.values(rangeSlots)));
 
   const EventComponent = ({ event }) => {
     if (JW === "true") {

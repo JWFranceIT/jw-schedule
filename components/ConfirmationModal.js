@@ -36,7 +36,6 @@ export default function ConfirmationModal({
       product_order,
       reception_zone,
       promise_date,
-      provider_name,
     } = event;
 
     events.push(event);
@@ -54,7 +53,9 @@ export default function ConfirmationModal({
       res.data?.errors
         ? (setIsError(true), setModalText(t({ id: "errorConfirmation" })))
         : (setIsConfirm(true),
-          setModalText(modalText + " " + moment(start).format("DD-MM-YYYY HH:mm")));
+          setModalText(
+            modalText + " " + moment(start).format("DD-MM-YYYY HH:mm")
+          ));
     });
     setTimeout(() => {
       setConfirmLoading(false);
@@ -78,7 +79,6 @@ export default function ConfirmationModal({
         `${t({ id: "textConfirmationModal" })} ${moment(event.start).format(
           "DD-MM-YYYY HH:mm"
         )} ?`}
-         
 
       {isConfirm && (
         <h2>

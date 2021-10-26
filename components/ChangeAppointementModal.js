@@ -15,12 +15,12 @@ export default function ChangeAppointementModal({ show, toggle, data }) {
   };
 
   const deleteEvent = (data) => {
-    deleteBooking({ where: { id: data.id } });
+    deleteBooking({ "id": data.isExist.id });
   };
 
   const handleOk = () => {
     setConfirmLoading(true);
-    //deleteEvent(data);
+    deleteEvent(data);
     setTimeout(() => {
       toggle(false);
       setConfirmLoading(false);
