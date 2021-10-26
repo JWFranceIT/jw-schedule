@@ -91,7 +91,6 @@ const Calendar = ({
     const { start } = e;
 
     const end = moment(start).add(time, "m").toDate();
-
     setEvent({
       ...e,
       provider: id,
@@ -188,6 +187,8 @@ const Calendar = ({
       };
     }
   };
+  console.log({ rangeSlots });
+  // console.log(ramda.uniq(ramda.values(rangeSlots)));
 
   const EventComponent = ({ event }) => {
     if (JW === "true") {
