@@ -97,7 +97,7 @@ export default function MainLayout({ children }) {
               {moment(promise_date).format("DD MMMM YYYY")}
             </p>
             <p>
-              {t({id: "deliveryTime"})} : { hours + ":" + minutes}  
+              {t({id: "deliveryTime"})} : { hours + "h" + minutes + "m"}  
             </p>
           </div>
         )}
