@@ -20,7 +20,7 @@ export default function ChangeAppointementModal({ show, toggle, data }) {
 
   const handleOk = () => {
     setConfirmLoading(true);
-    deleteEvent(data);
+    //deleteEvent(data);
     setTimeout(() => {
       toggle(false);
       setConfirmLoading(false);
