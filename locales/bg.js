@@ -22,7 +22,7 @@ export default {
   //ChangeAppointmentModal.js
   titleChangeModal: "Промяна на резервацията",
   textChangeModal: "Сигурни ли сте, че искате да промените резервацията си от",
-
+  advertissment: "⚠️ Това изтрива текущата ви среща",
   //ConfirmationModal.js
   titleConfirmationModal: "резервация",
   confirmationTextModal: "Вашата резервация е потвърдена на",

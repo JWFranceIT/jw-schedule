@@ -15,7 +15,7 @@ export default function ChangeAppointementModal({ show, toggle, data }) {
   };
 
   const deleteEvent = (data) => {
-    deleteBooking({ "id": data.isExist.id });
+    deleteBooking({ id: data.isExist.id });
   };
 
   const handleOk = () => {
@@ -42,9 +42,9 @@ export default function ChangeAppointementModal({ show, toggle, data }) {
       <p>
         {`${t({ id: "textChangeModal" })} ${moment(data.startRDV).format(
           "DD-MM-YYYY HH:mm"
-        )} ?
-          ⚠️ Cela supprime votre rdv actuel`}
+        )} ?`}
       </p>
+      <p>{`${t({ id: "advertissment" })} `}</p>
     </Modal>
   );
 }

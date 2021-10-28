@@ -21,7 +21,7 @@ export default {
   //ChangeApppointmentModal.js
   titleChangeModal: "Pakeisti užsakymą",
   textChangeModal: "Ar tikrai norite pakeisti užsakymą iš",
-
+  advertissment: "⚠️ Tai ištrina jūsų dabartinį susitikimą",
   //confirmationModal.js
   titleConfirmationModal: "Užsakymas",
   confirmationTextModal: "Jūsų užsakymas patvirtinamas",

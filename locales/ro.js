@@ -21,7 +21,7 @@ export default {
   //ChangeAppointmentModal.js
   titleChangeModal: "Schimbă rezervarea",
   textChangeModal: "Sunteți sigur că doriți să vă schimbați rezervarea de la",
-
+  advertissment: "⚠️ Acest lucru șterge programarea curentă",
   //confirmationModal.js
   titleConfirmationModal: "Rezervare",
   confirmationTextModal: "Rezervarea dvs. este confirmată la data de",

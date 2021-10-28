@@ -96,3 +96,21 @@ div.rbc-time-gutter > div.rbc-timeslot-group > div.rbc-time-slot {
   width: 95% !important;
   margin: 0 auto!important;
 }
+
+.error-500 {
+  position: absolute;
+  top: 33%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  max-width: 65%;
+  min-width: 50%;
+}
+
+.spin {
+  text-align: center;
+  width: 50%;
+  margin: auto;
+  margin-top: 7%
+}

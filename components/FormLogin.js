@@ -25,7 +25,7 @@ const FormLogin = ({ providers }) => {
   const onFinish = async ({ provider, product_order }) => {
     login(provider, product_order).then((data) => {
       if (data.statusCode === 200 && !data.isExist) {
-        router.replace({
+        router.push({
           pathname: "/schedule",
           query: data,
         });

@@ -21,7 +21,7 @@ export default {
   //ChangeAppointmentModal.js
   titleChangeModal: "Cambiar la reserva",
   textChangeModal: "¿Está seguro de que quiere cambiar su reserva de",
-
+  advertissment: "⚠️ Esto borra su cita actual",
   //confirmaciónModal.js
   titleConfirmationModal: "Reserva",
   confirmationTextModal: "Su reserva se confirma en",

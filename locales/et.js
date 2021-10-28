@@ -21,7 +21,7 @@ export default {
   //ChangeAppointementModal.js
   titleChangeModal: "Broneeringu muutmine",
   textChangeModal: "Kas olete kindel, et soovite oma broneeringut muuta alates",
-
+  advertissment: "⚠️ See kustutab teie praeguse kohtumise",
   //ConfirmationModal.js
   titleConfirmationModal: "Broneering",
   confirmationTextModal: "Teie broneering on kinnitatud",

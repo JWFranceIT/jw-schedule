@@ -21,7 +21,7 @@ export default {
   //ChangeAppointmentModal.js
   titleChangeModal: "A foglalás módosítása",
   textChangeModal: "Biztos, hogy meg akarja változtatni a foglalását",
-
+  advertissment: "⚠️ Ez törli az aktuális időpontot",
   //confirmationModal.js
   titleConfirmationModal: "Foglalás",
   confirmationTextModal:"Az Ön foglalása a következő időpontban kerül megerősítésre",

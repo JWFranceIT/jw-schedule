@@ -24,7 +24,7 @@ export default {
   //ChangeAppointmentModal.js
   titleChangeModal: "Change the booking",
   textChangeModal: "Are you sure you want to change your booking from",
-
+  advertissment: "⚠️ This deletes your current appointment",
   //confirmationModal.js
   titleConfirmationModal: "Reservation",
   confirmationTextModal: "Your booking is confirmed on",

@@ -23,7 +23,7 @@ export default {
   //ChangeAppointementModal.js
   titleChangeModal: "Modifier réservation",
   textChangeModal: "Êtes-vous sûr de modifier votre réservation du",
-
+  advertissment: "⚠️ Cela supprime votre rdv actuel",
   //ConfirmationModal.js
   titleConfirmationModal: "Réservation",
   confirmationTextModal: "Votre réservation est confirmée le",
