@@ -88,20 +88,26 @@ const Calendar = ({
   };
 
   const handleClickSlot = (e) => {
-    const { start } = e;
+    if (
+      rangeSlots.filter(
+        (slot) => moment(slot).toString() === moment(e.start).toString()
+      ).length === 0
+    ) {
+      const { start } = e;
 
-    const end = moment(start).add(time, "m").toDate();
-    setEvent({
-      ...e,
-      provider: id,
-      reception_zone: reception_zone,
-      product_order: product_order,
-      end: end,
-      promise_date: promiseDate,
-      provider_name: provider,
-    });
+      const end = moment(start).add(time, "m").toDate();
+      setEvent({
+        ...e,
+        provider: id,
+        reception_zone: reception_zone,
+        product_order: product_order,
+        end: end,
+        promise_date: promiseDate,
+        provider_name: provider,
+      });
 
-    showModal();
+      showModal();
+    }
   };
 
   const eventStyleGetter = () => {
@@ -260,7 +266,7 @@ const Calendar = ({
         slotPropGetter={SlotStyleGetter}
         min={new Date(0, 0, 0, startHourPlanning, startMinutePlanning)}
         max={new Date(0, 0, 0, endHourPlanning, endMinutePlanning)}
-        onSelecting={handleClickSlot}
+        onSelecting={() => false}
       />
       <ConfirmationModal
         show={visible}
