@@ -54,7 +54,7 @@ export default function ConfirmationModal({
         ? (setIsError(true), setModalText(t({ id: "errorConfirmation" })))
         : (setIsConfirm(true),
           setModalText(
-            modalText + " " + moment(start).tz('Europe/Paris').format("DD-MM-YYYY HH:mm")
+            modalText + " " + moment(start).format("DD-MM-YYYY HH:mm")
           ));
     });
     setTimeout(() => {
